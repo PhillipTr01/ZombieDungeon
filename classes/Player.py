@@ -1,6 +1,6 @@
 """ Python Top Down Shooter - ZombieDungeon
     *
-    *
+    * This class portrays the Player
 
     param:
         Author: Stefan Nemanja Banov & Phillip Tran
@@ -28,16 +28,31 @@ class Player(pygame.sprite.Sprite):
         self.image = self.sprites[self.current_sprite]
         pygame.sprite.Sprite.__init__(self, game.character_sprites)
         self.rect = self.image.get_rect()
-        self.max_health = config['max_health_player']
-        self.health = config['max_health_player']
-        self.game = game
         self.x = x * config["tile_size"] - config["tile_size"] / 2
         self.y = y * config["tile_size"] - config["tile_size"] / 2
+        self.game = game
         self.mx = 0
         self.my = 0
         self.animation_time = 0
 
+        self.max_health = config['max_health_player']
+        self.health = config['max_health_player']
+
     def update(self):
+        """
+        update
+
+            -
+
+            param:
+                none
+
+            return:
+                none
+
+            test:
+                * -
+        """
         self.x += self.mx * self.game.dt
         self.y += self.my * self.game.dt
         self.rect.topleft = (self.x, self.y)
@@ -50,40 +65,68 @@ class Player(pygame.sprite.Sprite):
     # ------------ Sprites ------------ #
 
     def initialize_sprites(self):
-        self.sprites.append(pygame.transform.scale(pygame.image.load("images/sprites/tile000.png"),
+        """
+        initialize_sprites
+
+            -
+
+            param:
+                none
+
+            return:
+                none
+
+            test:
+                * -
+        """
+        self.sprites.append(pygame.transform.scale(pygame.image.load("images/player/tile000.png"),
                                                    (config['player_size'], config['player_size'])))
-        self.sprites.append(pygame.transform.scale(pygame.image.load("images/sprites/tile001.png"),
+        self.sprites.append(pygame.transform.scale(pygame.image.load("images/player/tile001.png"),
                                                    (config['player_size'], config['player_size'])))
-        self.sprites.append(pygame.transform.scale(pygame.image.load("images/sprites/tile002.png"),
+        self.sprites.append(pygame.transform.scale(pygame.image.load("images/player/tile002.png"),
                                                    (config['player_size'], config['player_size'])))
-        self.sprites.append(pygame.transform.scale(pygame.image.load("images/sprites/tile003.png"),
+        self.sprites.append(pygame.transform.scale(pygame.image.load("images/player/tile003.png"),
                                                    (config['player_size'], config['player_size'])))
-        self.sprites.append(pygame.transform.scale(pygame.image.load("images/sprites/tile004.png"),
+        self.sprites.append(pygame.transform.scale(pygame.image.load("images/player/tile004.png"),
                                                    (config['player_size'], config['player_size'])))
-        self.sprites.append(pygame.transform.scale(pygame.image.load("images/sprites/tile005.png"),
+        self.sprites.append(pygame.transform.scale(pygame.image.load("images/player/tile005.png"),
                                                    (config['player_size'], config['player_size'])))
-        self.sprites.append(pygame.transform.scale(pygame.image.load("images/sprites/tile006.png"),
+        self.sprites.append(pygame.transform.scale(pygame.image.load("images/player/tile006.png"),
                                                    (config['player_size'], config['player_size'])))
-        self.sprites.append(pygame.transform.scale(pygame.image.load("images/sprites/tile007.png"),
+        self.sprites.append(pygame.transform.scale(pygame.image.load("images/player/tile007.png"),
                                                    (config['player_size'], config['player_size'])))
-        self.sprites.append(pygame.transform.scale(pygame.image.load("images/sprites/tile008.png"),
+        self.sprites.append(pygame.transform.scale(pygame.image.load("images/player/tile008.png"),
                                                    (config['player_size'], config['player_size'])))
-        self.sprites.append(pygame.transform.scale(pygame.image.load("images/sprites/tile009.png"),
+        self.sprites.append(pygame.transform.scale(pygame.image.load("images/player/tile009.png"),
                                                    (config['player_size'], config['player_size'])))
-        self.sprites.append(pygame.transform.scale(pygame.image.load("images/sprites/tile010.png"),
+        self.sprites.append(pygame.transform.scale(pygame.image.load("images/player/tile010.png"),
                                                    (config['player_size'], config['player_size'])))
-        self.sprites.append(pygame.transform.scale(pygame.image.load("images/sprites/tile011.png"),
+        self.sprites.append(pygame.transform.scale(pygame.image.load("images/player/tile011.png"),
                                                    (config['player_size'], config['player_size'])))
-        self.sprites.append(pygame.transform.scale(pygame.image.load("images/sprites/tile012.png"),
+        self.sprites.append(pygame.transform.scale(pygame.image.load("images/player/tile012.png"),
                                                    (config['player_size'], config['player_size'])))
-        self.sprites.append(pygame.transform.scale(pygame.image.load("images/sprites/tile013.png"),
+        self.sprites.append(pygame.transform.scale(pygame.image.load("images/player/tile013.png"),
                                                    (config['player_size'], config['player_size'])))
-        self.sprites.append(pygame.transform.scale(pygame.image.load("images/sprites/tile014.png"),
+        self.sprites.append(pygame.transform.scale(pygame.image.load("images/player/tile014.png"),
                                                    (config['player_size'], config['player_size'])))
-        self.sprites.append(pygame.transform.scale(pygame.image.load("images/sprites/tile015.png"),
+        self.sprites.append(pygame.transform.scale(pygame.image.load("images/player/tile015.png"),
                                                    (config['player_size'], config['player_size'])))
 
     def sprite_update(self, direction):
+        """
+        sprite_update
+
+            -
+
+            param:
+                direction(str): -
+
+            return:
+                none
+
+            test:
+                * -
+        """
         if self.animation_time == config['animation_speed']:
             if direction == "down":
                 if self.current_sprite >= 3:
@@ -125,11 +168,23 @@ class Player(pygame.sprite.Sprite):
         else:
             self.animation_time += 1
 
-    # --------------------------------- #
-
-    # ----------- Movement ----------- #
+    # ------------ Movement ------------ #
 
     def movement(self):
+        """
+        movement
+
+            -
+
+            param:
+                none
+
+            return:
+                none
+
+            test:
+                * -
+        """
         self.mx = 0
         self.my = 0
         direction = "idle"
@@ -150,23 +205,58 @@ class Player(pygame.sprite.Sprite):
             self.my = config['player_speed']
             direction = "down"
 
-        # Satz des Pythagoras sein Vater:
+        if key[pygame.K_LEFT]:
+            direction = "left"
+
+        if key[pygame.K_RIGHT]:
+            direction = "right"
+
+        if key[pygame.K_UP]:
+            direction = "up"
+
+        if key[pygame.K_DOWN]:
+            direction = "down"
+
         if self.mx != 0 and self.my != 0:
             self.mx *= 0.7071
             self.my *= 0.7071
 
         self.sprite_update(direction)
 
-    # -------------------------------- #
-
     # ------------ Health ------------ #
 
     def get_damage(self, damage):
+        """
+        get_damage
+
+            -
+
+            param:
+                damage(int):
+
+            return:
+                none
+
+            test:
+                * -
+        """
         if self.health > 0:
             self.health -= damage
 
     def get_health(self, health):
+        """
+        get_health
+
+            -
+
+            param:
+                health(int):
+
+            return:
+                none
+
+            test:
+                * -
+        """
         if self.health < self.max_health:
             self.health += health
-
-    # -------------------------------- #

@@ -1,6 +1,8 @@
 """ Python Top Down Shooter - ZombieDungeon
     *
-    *
+    * This class portrays the Grid
+        - Each level contains one random generated grid
+        - The Rooms created are distributed on the grid
 
     param:
         Author: Stefan Nemanja Banov & Phillip Tran
@@ -72,8 +74,8 @@ class Grid:
         """
         start_x = round((self.size_x - 1) / 2)
         start_y = round((self.size_y - 1) / 2)
-        self.grid = [[Room(-1, -1, 'e')] * self.size_y for _ in range(self.size_x)]
-        self.grid[start_y][start_x] = Room(start_x, start_y, 's')
+        self.grid = [[Room(-1, -1, 'e', -1)] * self.size_y for _ in range(self.size_x)]
+        self.grid[start_y][start_x] = Room(start_x, start_y, 's', 0)
 
         room_count = 0
 
@@ -111,7 +113,7 @@ class Grid:
                 previous_door = 'l'
                 x += 1
 
-            self.grid[y][x] = Room(x, y, previous_door)
+            self.grid[y][x] = Room(x, y, previous_door, random.randint(1, len(rooms)))
 
             room_count += 1
 

@@ -1,6 +1,8 @@
 """ Python Top Down Shooter - ZombieDungeon
     *
-    *
+    * This class portrays all static objects
+        - Ground
+        - Wall
 
     param:
         Author: Stefan Nemanja Banov & Phillip Tran
@@ -18,7 +20,7 @@ from config import *
 class Ground(pygame.sprite.Sprite):
     def __init__(self, game, x, y):
         pygame.sprite.Sprite.__init__(self, game.background_sprites)
-        self.image = pygame.transform.scale(pygame.image.load("images/ground_tile.png"),
+        self.image = pygame.transform.scale(pygame.image.load("images/objects/ground.png"),
                                             (config['tile_size'], config['tile_size']))
         self.rect = self.image.get_rect()
         self.rect.x = x * config['tile_size']
@@ -28,7 +30,7 @@ class Ground(pygame.sprite.Sprite):
 class Wall(pygame.sprite.Sprite):
     def __init__(self, game, x, y):
         pygame.sprite.Sprite.__init__(self, game.collision_sprites)
-        self.image = pygame.transform.scale(pygame.image.load("images/wall.png"),
+        self.image = pygame.transform.scale(pygame.image.load("images/objects/wall.png"),
                                             (config['tile_size'], config['tile_size']))
         self.rect = self.image.get_rect()
         self.rect.x = x * config['tile_size']

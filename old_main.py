@@ -7,15 +7,15 @@ import not_used.Health as Health
 
 grid = grid.Grid(11, 11)
 
-grid.fill_grid()
+grid.fill_grid(10)
 
 pygame.init()
 screen = pygame.display.set_mode([550, 600])
 clock = pygame.time.Clock()
 health = Health.Health(5)
 pygame.key.set_repeat(1, 20)
-full_heart = pygame.image.load('images/full_heart.png').convert_alpha()
-empty_heart = pygame.image.load('images/empty_heart.png').convert_alpha()
+full_heart = pygame.image.load('images/player/health/full_heart.png').convert_alpha()
+empty_heart = pygame.image.load('images/player/health/empty_heart.png').convert_alpha()
 font = pygame.font.SysFont('calibri', 30)
 score = scores.Score()
 level = 0
@@ -32,7 +32,7 @@ while True:
     if gedrueckt[pygame.K_ESCAPE]:
         sys.exit()
     if gedrueckt[pygame.K_r]:
-        grid.fill_grid()
+        grid.fill_grid(10)
     if gedrueckt[pygame.K_DOWN]:
         health.get_damage(1)
     elif gedrueckt[pygame.K_UP]:

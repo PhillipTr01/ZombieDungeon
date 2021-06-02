@@ -1,6 +1,6 @@
 """ Python Top Down Shooter - ZombieDungeon
     *
-    *
+    * This class portrays the Weapon
 
     param:
         Author: Stefan Nemanja Banov & Phillip Tran
