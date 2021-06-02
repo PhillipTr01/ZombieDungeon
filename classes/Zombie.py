@@ -24,8 +24,8 @@ class Zombie(pygame.sprite.Sprite):
         self.image = self.sprites[self.current_sprite]
         pygame.sprite.Sprite.__init__(self, game.enemy_sprites)
         self.rect = self.image.get_rect()
-        self.x = x * config["tile_size"] - config["tile_size"] / 2
-        self.y = y * config["tile_size"] - config["tile_size"] / 2
+        self.x = x * config["tile_size"]
+        self.y = y * config["tile_size"]
         self.game = game
         self.mx = 0
         self.my = 0

@@ -35,3 +35,13 @@ class Wall(pygame.sprite.Sprite):
         self.rect = self.image.get_rect()
         self.rect.x = x * config['tile_size']
         self.rect.y = y * config['tile_size']
+
+
+class Door(pygame.sprite.Sprite):
+    def __init__(self, game, x, y):
+        pygame.sprite.Sprite.__init__(self, game.door_sprites)
+        self.image = pygame.transform.scale(pygame.image.load("images/objects/ground.png"),
+                                            (config['tile_size'], config['tile_size']))
+        self.rect = self.image.get_rect()
+        self.rect.x = x * config['tile_size']
+        self.rect.y = y * config['tile_size']

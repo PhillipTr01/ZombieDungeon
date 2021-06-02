@@ -26,8 +26,11 @@ class Grid:
     def __init__(self, size_x, size_y):
         self.size_x = size_x
         self.size_y = size_y
+        self.start_x = 0
+        self.start_y = 0
         self.grid = []
         self.base_rooms_per_level = config['base_rooms_per_level']
+        self.room_count = 1
 
     # ------------ Grid Manipulation ------------ #
 
@@ -72,15 +75,16 @@ class Grid:
                 * grid is valid (rooms count have the limit, rooms can only spawn side by side...)
                 * previous door is saved correctly
         """
-        start_x = round((self.size_x - 1) / 2)
-        start_y = round((self.size_y - 1) / 2)
+        self.start_x = round((self.size_x - 1) / 2)
+        self.start_y = round((self.size_y - 1) / 2)
         self.grid = [[Room(-1, -1, 'e', -1)] * self.size_y for _ in range(self.size_x)]
-        self.grid[start_y][start_x] = Room(start_x, start_y, 's', 0)
+        self.grid[self.start_y][self.start_x] = Room(self.start_x, self.start_y, 's', 0)
+        self.grid[self.start_y][self.start_x].status = 1
 
         room_count = 0
 
-        y = start_y
-        x = start_x
+        y = self.start_y
+        x = self.start_x
         previous_door = ''
 
         while room_count < self.base_rooms_per_level + random.randint(-1, level):
@@ -113,7 +117,7 @@ class Grid:
                 previous_door = 'l'
                 x += 1
 
-            self.grid[y][x] = Room(x, y, previous_door, random.randint(1, len(rooms)))
+            self.grid[y][x] = Room(x, y, previous_door, random.randint(1, len(rooms) - 1))
 
             room_count += 1
 
@@ -144,6 +148,8 @@ class Grid:
         y = last_room.y
         previous_door = last_room.previous_door
 
+        self.room_count = 0
+
         while self.grid[y][x].previous_door != 'e':
             doors = []
 
@@ -171,5 +177,7 @@ class Grid:
                 x += 1
             elif previous_door == 's':
                 break
+
+            self.room_count += 1
 
             previous_door = self.grid[y][x].previous_door

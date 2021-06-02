@@ -11,7 +11,8 @@
     Sources:
         Transparent Rectangle:
             Link: https://stackoverflow.com/questions/6339057/draw-a-transparent-rectangle-in-pygame
-
+        Transition:
+            Link: https://www.youtube.com/watch?v=H2r2N7D56Uw
 """
 
 import sys
@@ -40,10 +41,15 @@ class Game:
         self.collision_sprites = pygame.sprite.Group()
         self.background_sprites = pygame.sprite.Group()
         self.enemy_sprites = pygame.sprite.Group()
+        self.door_sprites = pygame.sprite.Group()
         self.score = Score()
         self.level = 1
-        self.grid = Grid(11, 11).fill_grid(self.level)
+        self.level_grid = Grid(11, 11)
+        self.level_grid.fill_grid(self.level)
+        self.current_x = self.level_grid.start_x
+        self.current_y = self.level_grid.start_y
         self.player = None
+        self.next_room_direction = ''
 
     def update(self):
         """
@@ -60,6 +66,9 @@ class Game:
             test:
                 * -
         """
+        if self.player.health == 0:
+            self.gamestate = 3
+
         self.character_sprites.update()
         self.enemy_sprites.update()
 
@@ -119,6 +128,29 @@ class Game:
         pause_label2 = self.font.render('Press "ESCAPE" to resume!', True, (255, 0, 0))
         self.screen.blit(pause_label, (self.screen.get_width() / 2 - pause_label.get_width() / 2, self.screen.get_height() / 2.5))
         self.screen.blit(pause_label2, (self.screen.get_width() / 2 - pause_label2.get_width() / 2, (self.screen.get_height() / 2.5) + 100))
+
+    def game_over_screen(self):
+        """
+        start_screen
+
+            -
+
+            param:
+                none
+
+            return:
+                none
+
+            test:
+                * -
+        """
+
+        game_over_screen = pygame.transform.scale(pygame.image.load("images/game/start_screen.png"),
+                                                  (config["resolution_width"], config["resolution_height"]))
+        self.screen.blit(game_over_screen, (0, 0))
+        game_over_label = self.font.render("Game Over!", True, (255, 0, 0))
+        self.screen.blit(game_over_label, (self.screen.get_width() / 2 - game_over_label.get_width() / 2, self.screen.get_height() / 2.5))
+        pygame.display.flip()
 
     # ------------ Draw Objects on Screen ------------ #
 
@@ -199,7 +231,28 @@ class Game:
             test:
                 * -
         """
-        pass
+        map = pygame.Surface((165, 165), pygame.SRCALPHA)
+        map.fill((220, 220, 220, 64))
+        self.screen.blit(map, (20, config['resolution_height'] - 185))
+
+        for x in range(self.level_grid.size_x):
+            for y in range(self.level_grid.size_y):
+                map_grid = pygame.Surface((15, 15), pygame.SRCALPHA)
+
+                room = self.level_grid.grid[y][x]
+
+                if room.room_number > -1:
+                    if room.status == 0:
+                        map_grid.fill((0, 0, 0, 200))
+                        map_grid.fill((255, 255, 255, 175), map_grid.get_rect().inflate(-1.5, -1.5))
+                    elif room.status == 1:
+                        map_grid.fill((0, 0, 0, 200))
+                        map_grid.fill((255, 165, 0, 175), map_grid.get_rect().inflate(-1.5, -1.5))
+                    elif room.status == 2:
+                        map_grid.fill((0, 0, 0, 200))
+                        map_grid.fill((100, 100, 100, 175), map_grid.get_rect().inflate(-1.5, -1.5))
+
+                self.screen.blit(map_grid, (x * 15.2 + 20, y * 15.2 + config['resolution_height'] - 185))
 
     def room_decoding(self, room_map):
         """
@@ -216,6 +269,25 @@ class Game:
             test:
                 * -
         """
+
+        self.collision_sprites = pygame.sprite.Group()
+        self.background_sprites = pygame.sprite.Group()
+        self.enemy_sprites = pygame.sprite.Group()
+        self.door_sprites = pygame.sprite.Group()
+
+        if self.next_room_direction == 'left':
+            self.player.x = (len(rooms[0][0]) - 2) * config['tile_size']
+            self.player.y = (round((len(rooms[0]) - 1) / 2)) * config['tile_size']
+        elif self.next_room_direction == 'right':
+            self.player.x = 1 * config['tile_size']
+            self.player.y = (round((len(rooms[0]) - 1) / 2)) * config['tile_size']
+        elif self.next_room_direction == 'up':
+            self.player.x = (round((len(rooms[0][0]) - 1) / 2)) * config['tile_size']
+            self.player.y = (len(rooms[0]) - 2) * config['tile_size']
+        elif self.next_room_direction == 'down':
+            self.player.x = (round((len(rooms[0][0]) - 1) / 2)) * config['tile_size']
+            self.player.y = 1 * config['tile_size']
+
         y = 0
         for column in room_map:
             x = 0
@@ -224,14 +296,19 @@ class Game:
                     Wall(self, x, y)
                 if tile == "g":
                     Ground(self, x, y)
+                if tile == "d":
+                    Door(self, x, y)
                 if tile == "p":
-                    self.player = Player(self, x, y)
+                    if self.player is None:
+                        self.player = Player(self, x, y)
                     Ground(self, x, y)
                 if tile == "z":
                     Zombie(self, x, y)
                     Ground(self, x, y)
                 x += 1
             y += 1
+
+        self.next_room_direction = ''
 
     def draw(self):
         """
@@ -251,6 +328,7 @@ class Game:
         self.screen.fill((93, 227, 106))
         self.background_sprites.draw(self.screen)
         self.collision_sprites.draw(self.screen)
+        self.door_sprites.draw(self.screen)
         self.character_sprites.draw(self.screen)
         self.enemy_sprites.draw(self.screen)
         self.show_health()
@@ -287,6 +365,54 @@ class Game:
                 if self.gamestate > 0:
                     if event.key == pygame.K_ESCAPE:
                         self.gamestate = 1 if self.gamestate == 2 else 2
+
+    def next_room(self, sprite):
+        fade = pygame.Surface((config['resolution_width'], config['resolution_height']))
+        fade.fill((0, 0, 0))
+
+        x = sprite.rect.x / config['tile_size']
+        y = sprite.rect.y / config['tile_size']
+
+        self.level_grid.grid[self.current_y][self.current_x].status = 2
+
+        if x == 0 and y == round((len(rooms[0]) - 1) / 2):
+            self.current_x -= 1
+            self.next_room_direction = 'left'
+        elif x == len(rooms[0][0]) - 1 and y == round((len(rooms[0]) - 1) / 2):
+            self.current_x += 1
+            self.next_room_direction = 'right'
+        elif x == round((len(rooms[0][0]) - 1) / 2) and y == 0:
+            self.current_y -= 1
+            self.next_room_direction = 'up'
+        elif x == round((len(rooms[0][0]) - 1) / 2) and y == len(rooms[0]) - 1:
+            self.current_y += 1
+            self.next_room_direction = 'down'
+
+        if self.level_grid.grid[self.current_y][self.current_x].status == 0:
+            self.level_grid.room_count -= 1
+
+        next_room = self.level_grid.grid[self.current_y][self.current_x]
+
+        next_room.status = 1
+        self.room_decoding(rooms[next_room.room_number])
+
+        for alpha in range(0, 150):
+            fade.set_alpha(alpha)
+            self.screen.blit(fade, (0, 0))
+            pygame.display.update()
+            pygame.time.delay(3)
+
+        if self.level_grid.room_count == 0:
+            self.score.add_score(1000)  # 1000 Score per Level - 100 per Zombie
+            self.level += 1
+            self.level_grid = Grid(11, 11)
+            self.level_grid.fill_grid(self.level)
+            self.current_x = self.level_grid.start_x
+            self.current_y = self.level_grid.start_y
+            self.player.x = round(((len(rooms[0][0]) - 1) / 2)) * config['tile_size']
+            self.player.y = round(((len(rooms[0]) - 1) / 2)) * config['tile_size']
+            self.player.health = self.player.max_health
+            self.room_decoding(rooms[self.level_grid.grid[self.current_y][self.current_x].room_number])
 
     # ------------ Not used ------------ #
 

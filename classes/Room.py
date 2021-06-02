@@ -17,17 +17,26 @@ d = "d"  # Door
 p = "p"  # Player Spawn
 z = "z"  # Zombie Spawn
 
-rooms = [
-    [[w, w, w, w, w, w, w, w, w, w, w, w, w, w, w],
-     [w, z, g, g, g, g, g, g, g, g, g, g, g, z, w],
-     [w, g, g, g, g, g, g, g, g, g, g, g, g, g, w],
-     [w, g, g, g, g, g, g, g, g, g, g, g, g, g, w],
-     [w, g, g, g, g, g, g, p, g, g, g, g, g, g, w],
-     [w, g, g, g, g, g, g, g, g, g, g, g, g, g, w],
-     [w, g, g, g, g, g, g, g, g, g, g, g, g, g, w],
-     [w, z, g, g, g, g, g, g, g, g, g, g, g, z, w],
-     [w, w, w, w, w, w, w, w, w, w, w, w, w, w, w]]
-]
+rooms = []
+
+rooms.append([[w, w, w, w, w, w, w, d, w, w, w, w, w, w, w],    # Room 0
+              [w, g, g, g, g, g, g, g, g, g, g, g, g, g, w],
+              [w, g, g, g, g, g, g, g, g, g, g, g, g, g, w],
+              [w, g, g, g, g, g, g, g, g, g, g, g, g, g, w],
+              [d, g, g, g, g, g, g, p, g, g, g, g, g, g, d],
+              [w, g, g, g, g, g, g, g, g, g, g, g, g, g, w],
+              [w, g, g, g, g, g, g, g, g, g, g, g, g, g, w],
+              [w, g, g, g, g, g, g, g, g, g, g, g, g, g, w],
+              [w, w, w, w, w, w, w, d, w, w, w, w, w, w, w]])
+rooms.append([[w, w, w, w, w, w, w, d, w, w, w, w, w, w, w],    # Room 1
+              [w, g, g, g, g, g, g, g, g, g, g, g, g, g, w],
+              [w, g, g, g, g, g, g, g, g, g, g, g, g, g, w],
+              [w, g, g, g, g, g, g, g, g, g, g, g, g, g, w],
+              [d, g, g, g, g, g, g, p, g, g, g, g, g, g, d],
+              [w, g, g, g, g, g, g, g, g, g, g, g, g, g, w],
+              [w, g, g, g, g, g, g, g, g, g, g, g, g, g, w],
+              [w, g, g, g, g, g, g, g, g, g, g, g, g, g, w],
+              [w, w, w, w, w, w, w, d, w, w, w, w, w, w, w]])
 
 
 class Room:
@@ -35,6 +44,7 @@ class Room:
     def __init__(self, x, y, previous_door, room_number):
         self.x = x
         self.y = y
+        self.doors = []
         self.previous_door = previous_door
         self.room_number = room_number
         self.status = 0  # 0 - Created, 1 - Visited, 2 - Cleared

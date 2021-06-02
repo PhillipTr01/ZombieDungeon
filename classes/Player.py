@@ -28,13 +28,15 @@ class Player(pygame.sprite.Sprite):
         self.image = self.sprites[self.current_sprite]
         pygame.sprite.Sprite.__init__(self, game.character_sprites)
         self.rect = self.image.get_rect()
-        self.x = x * config["tile_size"] - config["tile_size"] / 2
-        self.y = y * config["tile_size"] - config["tile_size"] / 2
+        self.x = x * config["tile_size"]
+        self.y = y * config["tile_size"]
         self.game = game
         self.mx = 0
         self.my = 0
         self.animation_time = 0
 
+        self.invincible_count = 0
+        self.door_count = 0
         self.max_health = config['max_health_player']
         self.health = config['max_health_player']
 
@@ -61,6 +63,15 @@ class Player(pygame.sprite.Sprite):
             self.x -= self.mx * self.game.dt
             self.y -= self.my * self.game.dt
             self.rect.topleft = (self.x, self.y)
+        elif pygame.sprite.spritecollideany(self, self.game.enemy_sprites):
+            if self.invincible_count == 0:
+                self.get_damage(1)
+                self.invincible_count = 50
+        elif pygame.sprite.spritecollideany(self, self.game.door_sprites):
+            self.game.next_room(pygame.sprite.spritecollideany(self, self.game.door_sprites))
+
+        if self.invincible_count > 0:
+            self.invincible_count -= 1
 
     # ------------ Sprites ------------ #
 

@@ -9,3 +9,9 @@
         License: free
 
 """
+
+
+class Fireball:
+
+    def __init__(self):
+        pass
