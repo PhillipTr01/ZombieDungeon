@@ -30,6 +30,8 @@ class Zombie(pygame.sprite.Sprite):
         self.mx = 0
         self.my = 0
         self.animation_time = 0
+        self.health = config['zombie_health']
+        self.invincible_count = 0
 
     def update(self):
         """
@@ -50,6 +52,58 @@ class Zombie(pygame.sprite.Sprite):
         self.x += self.mx * self.game.dt
         self.y += self.my * self.game.dt
         self.rect.topleft = (self.x, self.y)
+
+        if pygame.sprite.spritecollideany(self, self.game.weapon_sprites):
+            sprite = pygame.sprite.spritecollideany(self, self.game.weapon_sprites)
+            sprite.kill()
+
+            if self.invincible_count == 0:
+                self.health -= 1
+                self.invincible_count = 5
+
+                '''
+                if sprite.rect.x - sprite.rect.size[0] < self.x - self.rect.size[1]:
+                    self.x += 50
+                elif sprite.rect.x - sprite.rect.size[0] >= self.x - self.rect.size[1]:
+                    self.x -= 50
+                elif sprite.rect.y - sprite.rect.size[0] < self.y - self.rect.size[1]:
+                    self.y += 50
+                elif sprite.rect.y - sprite.rect.size[0] >= self.y - self.rect.size[1]:
+                    self.y -= 50
+                '''
+
+                if self.health == 0:
+                    self.game.zombie_count -= 1
+                    self.game.score.add_score(100)
+                    self.kill()
+
+                if self.game.zombie_count == 0:
+                    self.game.room_cleared()
+
+        if pygame.sprite.spritecollideany(self, self.game.collision_sprites):
+            self.x -= self.mx * self.game.dt
+            self.y -= self.my * self.game.dt
+            self.rect.topleft = (self.x, self.y)
+
+        if pygame.sprite.spritecollideany(self, self.game.enemy_sprites):
+            sprite = pygame.sprite.spritecollideany(self, self.game.enemy_sprites)
+
+            if sprite.rect is not self.rect:
+                self.x -= self.mx * self.game.dt
+                self.y -= self.my * self.game.dt
+                self.rect.topleft = (self.x, self.y)
+
+        if pygame.sprite.spritecollideany(self, self.game.character_sprites):
+            self.x -= self.mx * self.game.dt
+            self.y -= self.my * self.game.dt
+            self.rect.topleft = (self.x, self.y)
+
+            if self.game.player.invincible_count == 0:
+                self.game.player.get_damage(config['zombie_damage'])
+                self.game.player.invincible_count = 50
+
+        if self.invincible_count > 0:
+            self.invincible_count -= 1
 
     # ------------ Sprites ------------ #
 

@@ -19,24 +19,24 @@ z = "z"  # Zombie Spawn
 
 rooms = []
 
-rooms.append([[w, w, w, w, w, w, w, d, w, w, w, w, w, w, w],    # Room 0
+rooms.append([[w, w, w, w, w, w, w, w, w, w, w, w, w, w, w],    # Room 0
               [w, g, g, g, g, g, g, g, g, g, g, g, g, g, w],
               [w, g, g, g, g, g, g, g, g, g, g, g, g, g, w],
               [w, g, g, g, g, g, g, g, g, g, g, g, g, g, w],
-              [d, g, g, g, g, g, g, p, g, g, g, g, g, g, d],
+              [w, g, g, g, g, g, g, p, g, g, g, g, g, g, w],
               [w, g, g, g, g, g, g, g, g, g, g, g, g, g, w],
               [w, g, g, g, g, g, g, g, g, g, g, g, g, g, w],
               [w, g, g, g, g, g, g, g, g, g, g, g, g, g, w],
-              [w, w, w, w, w, w, w, d, w, w, w, w, w, w, w]])
-rooms.append([[w, w, w, w, w, w, w, d, w, w, w, w, w, w, w],    # Room 1
+              [w, w, w, w, w, w, w, w, w, w, w, w, w, w, w]])
+rooms.append([[w, w, w, w, w, w, w, w, w, w, w, w, w, w, w],    # Room 1
               [w, g, g, g, g, g, g, g, g, g, g, g, g, g, w],
               [w, g, g, g, g, g, g, g, g, g, g, g, g, g, w],
               [w, g, g, g, g, g, g, g, g, g, g, g, g, g, w],
-              [d, g, g, g, g, g, g, p, g, g, g, g, g, g, d],
               [w, g, g, g, g, g, g, g, g, g, g, g, g, g, w],
               [w, g, g, g, g, g, g, g, g, g, g, g, g, g, w],
               [w, g, g, g, g, g, g, g, g, g, g, g, g, g, w],
-              [w, w, w, w, w, w, w, d, w, w, w, w, w, w, w]])
+              [w, g, g, g, g, g, g, g, g, g, g, g, g, g, w],
+              [w, w, w, w, w, w, w, w, w, w, w, w, w, w, w]])
 
 
 class Room:

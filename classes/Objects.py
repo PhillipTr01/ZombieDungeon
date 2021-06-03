@@ -18,6 +18,7 @@ from config import *
 
 
 class Ground(pygame.sprite.Sprite):
+
     def __init__(self, game, x, y):
         pygame.sprite.Sprite.__init__(self, game.background_sprites)
         self.image = pygame.transform.scale(pygame.image.load("images/objects/ground.png"),
@@ -28,6 +29,7 @@ class Ground(pygame.sprite.Sprite):
 
 
 class Wall(pygame.sprite.Sprite):
+
     def __init__(self, game, x, y):
         pygame.sprite.Sprite.__init__(self, game.collision_sprites)
         self.image = pygame.transform.scale(pygame.image.load("images/objects/wall.png"),
@@ -38,6 +40,7 @@ class Wall(pygame.sprite.Sprite):
 
 
 class Door(pygame.sprite.Sprite):
+
     def __init__(self, game, x, y):
         pygame.sprite.Sprite.__init__(self, game.door_sprites)
         self.image = pygame.transform.scale(pygame.image.load("images/objects/ground.png"),

@@ -87,7 +87,7 @@ class Grid:
         x = self.start_x
         previous_door = ''
 
-        while room_count < self.base_rooms_per_level + random.randint(-1, level):
+        while room_count < self.base_rooms_per_level + random.randint(-1 + round(level / 2), level):
             possible_ways = []
 
             if y + 1 in range(0, self.size_y) and self.grid[y + 1][x].previous_door == 'e':

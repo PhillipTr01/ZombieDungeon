@@ -21,7 +21,6 @@ import classes.Room as rooms
 
 if __name__ == "__main__":
     active_game = Game()
-    active_game.room_decoding(rooms.rooms[0])
 
     while True:
         active_game.general_key_events()
@@ -37,5 +36,7 @@ if __name__ == "__main__":
         elif active_game.gamestate == 3:  # Game lost
             active_game.game_over_screen()
             if pygame.key.get_pressed()[pygame.K_r]:  # Temporär!!!!
+                del active_game
                 active_game = Game()
+                active_game.gamestate = 1
                 active_game.room_decoding(rooms.rooms[0])

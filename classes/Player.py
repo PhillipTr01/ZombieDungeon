@@ -14,9 +14,7 @@
 
 """
 
-import pygame
-
-from config import *
+from classes.Weapons import *
 
 
 class Player(pygame.sprite.Sprite):
@@ -36,6 +34,7 @@ class Player(pygame.sprite.Sprite):
         self.animation_time = 0
 
         self.invincible_count = 0
+        self.shoot_delay = 0
         self.door_count = 0
         self.max_health = config['max_health_player']
         self.health = config['max_health_player']
@@ -63,11 +62,16 @@ class Player(pygame.sprite.Sprite):
             self.x -= self.mx * self.game.dt
             self.y -= self.my * self.game.dt
             self.rect.topleft = (self.x, self.y)
-        elif pygame.sprite.spritecollideany(self, self.game.enemy_sprites):
+
+        if pygame.sprite.groupcollide(self.game.enemy_sprites, self.game.character_sprites, False, False):
             if self.invincible_count == 0:
-                self.get_damage(1)
+                self.get_damage(config['zombie_damage'])
                 self.invincible_count = 50
-        elif pygame.sprite.spritecollideany(self, self.game.door_sprites):
+            self.x -= self.mx * self.game.dt
+            self.y -= self.my * self.game.dt
+            self.rect.topleft = (self.x, self.y)
+
+        if pygame.sprite.spritecollideany(self, self.game.door_sprites):
             self.game.next_room(pygame.sprite.spritecollideany(self, self.game.door_sprites))
 
         if self.invincible_count > 0:
@@ -217,20 +221,32 @@ class Player(pygame.sprite.Sprite):
             direction = "down"
 
         if key[pygame.K_LEFT]:
+            if self.shoot_delay == 0:
+                self.shoot_delay = 50
+                self.game.shoot(self.x, self.y, 'left')
             direction = "left"
-
-        if key[pygame.K_RIGHT]:
+        elif key[pygame.K_RIGHT]:
+            if self.shoot_delay == 0:
+                self.shoot_delay = 50
+                self.game.shoot(self.x, self.y, 'right')
             direction = "right"
-
-        if key[pygame.K_UP]:
+        elif key[pygame.K_UP]:
+            if self.shoot_delay == 0:
+                self.shoot_delay = 50
+                self.game.shoot(self.x, self.y, 'up')
             direction = "up"
-
-        if key[pygame.K_DOWN]:
+        elif key[pygame.K_DOWN]:
+            if self.shoot_delay == 0:
+                self.shoot_delay = 50
+                self.game.shoot(self.x, self.y, 'down')
             direction = "down"
 
         if self.mx != 0 and self.my != 0:
             self.mx *= 0.7071
             self.my *= 0.7071
+
+        if self.shoot_delay > 0:
+            self.shoot_delay -= 1
 
         self.sprite_update(direction)
 
