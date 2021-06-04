@@ -2,7 +2,7 @@ import pygame
 import sys
 
 import classes.Grid as grid
-import classes.Score as scores
+import not_used.Score as scores
 import not_used.Health as Health
 
 grid = grid.Grid(11, 11)

@@ -12,7 +12,7 @@
 """
 
 config = {
-    # -------- Video_Settings -------- #
+    # -------- Video -------- #
     'resolution_width': 1125,
     'resolution_height': 675,
     'tile_size': 75,
@@ -21,15 +21,26 @@ config = {
     'weapon_size': 40,
     'fps': 60,
 
-    # ------- Pregame_Settings ------- #
-    'base_rooms_per_level': 5,
+    # ------- Pregame ------- #
+    'base_rooms_per_level': 5,  # Minimum number of rooms per level
     'animation_speed': 3,
+    'max_zombie_count': 5,  # Number of zombies per room
+
+
+    # ------- Player ------- #
     'player_speed': 350,  # Pixels per Second
-    'zombie_speed': 150,
-    'zombie_damage': 1,
-    'max_health_player': 5,
-    'max_zombie_count': 5,
+    'player_health': 5,
+    'player_invincible_time': 50,   # Unit not specified
+
+    # ------- Zombie ------- #
+    'zombie_speed': 150,  # Pixels per Second
     'zombie_health': 3,
-    'weapon_speed': 7,
-    'weapon_lifetime': 3000,
+    'zombie_damage': 1,
+    'zombie_invincible_time': 10,   # Unit not specified
+
+    # ------- Weapons ------- #
+    'weapon_speed': 10,     # Pixels per Second
+    'weapon_lifetime': 3000,    # in milliseconds
+    'weapon_damage': 1,
+    'weapon_shoot_delay': 40    # Unit not specified | If set to 0 the player will be able to spam the weapon
 }

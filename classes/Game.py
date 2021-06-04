@@ -17,9 +17,10 @@
 import copy
 import sys
 
+import pygame.mixer
+
 from classes.Grid import *
 from classes.Player import *
-from classes.Score import *
 from classes.Objects import *
 from classes.Zombie import *
 
@@ -43,7 +44,7 @@ class Game:
         self.enemy_sprites = pygame.sprite.Group()
         self.door_sprites = pygame.sprite.Group()
         self.weapon_sprites = pygame.sprite.Group()
-        self.score = Score()
+        self.score = 0
         self.level = 1
         self.level_grid = Grid(11, 11)
         self.level_grid.fill_grid(self.level)
@@ -68,11 +69,11 @@ class Game:
         if self.level_grid.room_count == 0:
             self.screen.fill((0, 0, 0))
             start_label = self.font.render("Level " + str(self.level) + " cleared!", True, (255, 255, 255))
-            self.screen.blit(start_label, (self.screen.get_width() / 2 - start_label.get_width() / 2, self.screen.get_height() / 2.5))
+            self.screen.blit(start_label, (self.screen.get_width() / 2 - start_label.get_width() / 2, self.screen.get_height() / 2 - start_label.get_height() / 2))
             pygame.display.update()
             pygame.time.wait(2000)
 
-            self.score.add_score(1000)  # 1000 Score per Level - 100 per Zombie
+            self.score += 1000  # 1000 Score per Level - 100 per Zombie
             self.level += 1
             self.level_grid = Grid(11, 11)
             self.level_grid.fill_grid(self.level)
@@ -80,11 +81,11 @@ class Game:
             self.current_y = self.level_grid.start_y
             self.player.x = round(((len(rooms[0][0]) - 1) / 2)) * config['tile_size']
             self.player.y = round(((len(rooms[0]) - 1) / 2)) * config['tile_size']
-            self.player.health = self.player.max_health
+            self.player.health = config['player_health']
             self.copied_room = copy.deepcopy(rooms[self.level_grid.grid[self.current_y][self.current_x].room_number])
             self.room_decoding(rooms[0])
 
-        for alpha in range(0, 50):
+        for alpha in range(0, 75):
             fade.set_alpha(alpha)
             self.screen.blit(fade, (0, 0))
             pygame.display.update()
@@ -231,12 +232,12 @@ class Game:
             test:
                 * -
         """
-        if self.player.health == 0:
-            self.gamestate = 3
 
         self.character_sprites.update()
         self.enemy_sprites.update()
         self.weapon_sprites.update()
+        self.draw()
+        self.player.movement()
 
     # ------------ Gamestates ------------ #
 
@@ -321,7 +322,7 @@ class Game:
         game_over_screen.set_alpha(75)
         self.screen.blit(game_over_screen, (0, 0))
         game_over_label = self.font.render("Game Over!", True, (255, 255, 255))
-        game_over_label2 = self.font.render("Your Score: " + str(self.score.score), True, (255, 255, 255))
+        game_over_label2 = self.font.render("Your Score: " + str(self.score), True, (255, 255, 255))
         self.screen.blit(game_over_label, (self.screen.get_width() / 2 - game_over_label.get_width() / 2, self.screen.get_height() / 2.5))
         self.screen.blit(game_over_label2, (self.screen.get_width() / 2 - game_over_label2.get_width() / 2, (self.screen.get_height() / 2.5) + 100))
         pygame.display.flip()
@@ -346,7 +347,7 @@ class Game:
         full_heart = pygame.image.load('images/player/health/full_heart.png').convert_alpha()
         empty_heart = pygame.image.load('images/player/health/empty_heart.png').convert_alpha()
 
-        for heart in range(self.player.max_health):
+        for heart in range(config['player_health']):
             if heart < self.player.health:
                 self.screen.blit(full_heart, ((heart * 45 + 30), 15))
             else:
@@ -368,7 +369,7 @@ class Game:
                 * -
         """
         font = pygame.font.Font("fonts/dogicapixel.otf", 20)
-        rendered_score = font.render("Score: " + str(self.score.score), True, (255, 255, 255))
+        rendered_score = font.render("Score: " + str(self.score), True, (255, 255, 255))
         self.screen.blit(rendered_score, (config["resolution_width"] - 250, 20))
 
     def show_level(self):

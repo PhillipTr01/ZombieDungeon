@@ -1,12 +1,16 @@
 """ Python Top Down Shooter - ZombieDungeon
     *
-    * This class portrays the Zombie
+    *
 
     param:
         Author: Stefan Nemanja Banov & Phillip Tran
         Date: 06.06.2021
         Version: 1.0.0
         License: free
+
+    Sources:
+        [1] Sprites:
+                Designer: Nina Vukovic (Friend of developer) and Stefan Nemanja Banov
 
 """
 
@@ -16,13 +20,34 @@ from config import *
 
 
 class Zombie(pygame.sprite.Sprite):
+    """ Zombie
+
+        this class portrays the zombie, the enemy of the player
+
+        attributes:
+            sprites(array of surfaces): contains all images / sprites of zombie
+            current_sprite(int): declares which sprite should be displayed
+            image(surface): current sprite
+            rect(rect): rectangle of zombie
+            x(int): x-coordinate of position
+            y(int): y-coordinate of position
+            game(game): current game running
+            mx(float): movement indicator on x-axis
+            my(float): movement indicator on y-axis
+            animation_time(int):
+            health(int): health of zombie
+            invincible_count(int): interval the zombie can get hurt
+
+        test:
+            * -
+    """
 
     def __init__(self, game, x, y):
         self.sprites = []
         self.initialize_sprites()
         self.current_sprite = 0
-        self.image = self.sprites[self.current_sprite]
         pygame.sprite.Sprite.__init__(self, game.enemy_sprites)
+        self.image = self.sprites[self.current_sprite]
         self.rect = self.image.get_rect()
         self.x = x * config["tile_size"]
         self.y = y * config["tile_size"]
@@ -58,7 +83,7 @@ class Zombie(pygame.sprite.Sprite):
             sprite.kill()
 
             if self.invincible_count == 0:
-                self.health -= 1
+                self.health -= config['weapon_damage']
                 self.invincible_count = 5
 
                 '''
@@ -74,7 +99,7 @@ class Zombie(pygame.sprite.Sprite):
 
                 if self.health == 0:
                     self.game.zombie_count -= 1
-                    self.game.score.add_score(100)
+                    self.game.score += 100
                     self.kill()
 
                 if self.game.zombie_count == 0:
@@ -84,14 +109,6 @@ class Zombie(pygame.sprite.Sprite):
             self.x -= self.mx * self.game.dt
             self.y -= self.my * self.game.dt
             self.rect.topleft = (self.x, self.y)
-
-        if pygame.sprite.spritecollideany(self, self.game.enemy_sprites):
-            sprite = pygame.sprite.spritecollideany(self, self.game.enemy_sprites)
-
-            if sprite.rect is not self.rect:
-                self.x -= self.mx * self.game.dt
-                self.y -= self.my * self.game.dt
-                self.rect.topleft = (self.x, self.y)
 
         if pygame.sprite.spritecollideany(self, self.game.character_sprites):
             self.x -= self.mx * self.game.dt
@@ -111,7 +128,7 @@ class Zombie(pygame.sprite.Sprite):
         """
         initialize_sprites
 
-            -
+            loads all the sprites into the sprite array
 
             param:
                 none
@@ -120,9 +137,10 @@ class Zombie(pygame.sprite.Sprite):
                 none
 
             test:
-                * -
+                * sprites are appended correct (size & image is right)
+                * all sprites are appended
         """
-        self.sprites.append(pygame.transform.scale(pygame.image.load("images/zombie/tile000.png"),
+        self.sprites.append(pygame.transform.scale(pygame.image.load("images/zombie/tile000.png"),  # [1]
                                                    (config['zombie_size'], config['zombie_size'])))
         self.sprites.append(pygame.transform.scale(pygame.image.load("images/zombie/tile001.png"),
                                                    (config['zombie_size'], config['zombie_size'])))
@@ -159,16 +177,17 @@ class Zombie(pygame.sprite.Sprite):
         """
         sprite_update
 
-            -
+            updates the index of current sprite to create an animation
 
             param:
-                direction(str): -
+                direction(str): direction in which the zombie is moving
 
             return:
                 none
 
             test:
-                * -
+                * sprite animation fits to the zombie movement
+                * animation is displayed correct
         """
         if self.animation_time == config['animation_speed']:
             if direction == "down":
@@ -217,7 +236,7 @@ class Zombie(pygame.sprite.Sprite):
         """
         ai_movement
 
-            -
+            algorithm to check in which direction the zombie shall move
 
             param:
                 none
@@ -226,17 +245,11 @@ class Zombie(pygame.sprite.Sprite):
                 none
 
             test:
-                * -
+                * zombie moves towards player
+                * zombie sprite is correct
         """
         self.mx = 0
         self.my = 0
-
-        # Checking Difference to Players-X Position
-        subx = self.x - self.game.player.x
-        if subx < 0:
-            self.mx = config['zombie_speed']
-        else:
-            self.mx = -config['zombie_speed']
 
         # Checking Difference to Players-Y Position
         suby = self.y - self.game.player.y
@@ -245,9 +258,25 @@ class Zombie(pygame.sprite.Sprite):
         else:
             self.my = -config['zombie_speed']
 
+        # Checking Difference to Players-X Position
+        subx = self.x - self.game.player.x
+        if subx < 0:
+            self.mx = config['zombie_speed']
+        else:
+            self.mx = -config['zombie_speed']
+
         if self.mx != 0 and self.my != 0:
             self.mx *= 0.7071
             self.my *= 0.7071
 
-        # Muss noch angepasst werden, so dass der Zombie in alle Richtungen läuft
-        self.sprite_update("left")
+        if abs(suby) > abs(subx):
+            if suby < 0:
+                self.sprite_update("down")
+            else:
+                self.sprite_update("up")
+        else:
+            if subx < 0:
+                self.sprite_update("right")
+            else:
+                self.sprite_update("left")
+

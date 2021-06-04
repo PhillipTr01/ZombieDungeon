@@ -1,20 +1,31 @@
 ## Stefan
-- [x] Start Screen
 - [x] Movement
-- [x] Collision
 - [x] Room Reading 
-- [ ] Rooms
-- [ ] Doc Strings ergänzen
 - [x] Player
-- [ ] Zombies and Logic
 - [x] Pause Screen
+- [ ] Start and Game Over screen
+    - [ ] Start Screen as Menu with Start, Exit, OPTIONAL: Highscore (Highscore müsste dafür implementiert werden)
+    - [ ] Try again button beim Game over screen (In main class ändern)
+- [ ] Collision
+    - [ ] Zombie against Wall
+- [ ] Rooms (ergänzen)
+- [ ] Zombies
+    - [ ] Logic (better Movement)
+- [ ] Weapon (Sprites eventuell ändern)
 
 ## Phillip
-- [ ] Projectiles
-- [ ] Weapon
-- [ ] Health - Bar 
-- [ ] Winning Condition
-- [ ] Map generation
-- [ ] Transitioning between Rooms 
-- [ ] Score
-- [ ] Playable Aspect
+- [X] Projectiles
+- [X] Weapon
+- [X] Health
+- [X] Winning Condition
+- [X] Map generation
+- [X] Transitioning between Rooms 
+- [X] Score
+- [X] Playable Aspect
+
+## Allgemein
+- [ ] Logging
+- [ ] Kommentare hinzufügen
+- [ ] Doc Strings ergänzen / überarbeiten
+- [ ] README.md überarbeiten
+- [ ] Sounds hinzufügen (Stellen sind markiert)

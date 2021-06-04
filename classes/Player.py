@@ -9,10 +9,13 @@
         License: free
 
     Sources:
-        Health Container:
+        [1] Player (Sprites):
+                Designer: Nina Vukovic (Friend of developer) and Stefan Nemanja Banov
+        [2] Health Container:
             Tutorial-Link: https://www.youtube.com/watch?v=WLYEsgYkEvY
 
 """
+import pygame.mixer
 
 from classes.Weapons import *
 
@@ -36,8 +39,7 @@ class Player(pygame.sprite.Sprite):
         self.invincible_count = 0
         self.shoot_delay = 0
         self.door_count = 0
-        self.max_health = config['max_health_player']
-        self.health = config['max_health_player']
+        self.health = config['player_health']
 
     def update(self):
         """
@@ -54,6 +56,9 @@ class Player(pygame.sprite.Sprite):
             test:
                 * -
         """
+        if self.health == 0:
+            self.game.gamestate = 3
+
         self.x += self.mx * self.game.dt
         self.y += self.my * self.game.dt
         self.rect.topleft = (self.x, self.y)
@@ -220,24 +225,24 @@ class Player(pygame.sprite.Sprite):
             self.my = config['player_speed']
             direction = "down"
 
-        if key[pygame.K_LEFT]:
+        if key[pygame.K_LEFT] and not key[pygame.K_RIGHT]:
             if self.shoot_delay == 0:
-                self.shoot_delay = 50
+                self.shoot_delay = 0
                 self.game.shoot(self.x, self.y, 'left')
             direction = "left"
-        elif key[pygame.K_RIGHT]:
+        elif key[pygame.K_RIGHT] and not key[pygame.K_LEFT]:
             if self.shoot_delay == 0:
-                self.shoot_delay = 50
+                self.shoot_delay = 0
                 self.game.shoot(self.x, self.y, 'right')
             direction = "right"
-        elif key[pygame.K_UP]:
+        elif key[pygame.K_UP] and not key[pygame.K_DOWN]:
             if self.shoot_delay == 0:
-                self.shoot_delay = 50
+                self.shoot_delay = 0
                 self.game.shoot(self.x, self.y, 'up')
             direction = "up"
-        elif key[pygame.K_DOWN]:
+        elif key[pygame.K_DOWN] and not key[pygame.K_UP]:
             if self.shoot_delay == 0:
-                self.shoot_delay = 50
+                self.shoot_delay = 0
                 self.game.shoot(self.x, self.y, 'down')
             direction = "down"
 
@@ -269,21 +274,3 @@ class Player(pygame.sprite.Sprite):
         """
         if self.health > 0:
             self.health -= damage
-
-    def get_health(self, health):
-        """
-        get_health
-
-            -
-
-            param:
-                health(int):
-
-            return:
-                none
-
-            test:
-                * -
-        """
-        if self.health < self.max_health:
-            self.health += health
