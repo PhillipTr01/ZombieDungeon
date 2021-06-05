@@ -39,7 +39,7 @@ class Zombie(pygame.sprite.Sprite):
 
         test:
             * Zombie spawns on correct position (doesn't collide on spawn)
-            * [OPEN]
+            * Movement is automated and zombie is moving towards player
     """
 
     def __init__(self, game, x, y):

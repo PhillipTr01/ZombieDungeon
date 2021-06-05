@@ -52,8 +52,8 @@ class Game:
             copied_room(2d-list of str): deep-copied room map
 
         test:
-            * [OPEN]
-            * [OPEN]
+            * Game processes everything right - no errors while playing
+            * pygame initialization is correct
     """
 
     def __init__(self):

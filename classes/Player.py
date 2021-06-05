@@ -38,7 +38,7 @@ class Player(pygame.sprite.Sprite):
 
         test:
             * Player spawns on correct position (doesn't collide on spawn)
-            * [OPEN]
+            * Health is set and used correct
     """
 
     def __init__(self, game, x, y):
