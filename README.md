@@ -24,7 +24,7 @@
 
 ## Game description
 ### Goal
-You're in a dungeon trying to fight your way through all the rooms. To achieve this goal you have to fight through
+You're in a dungeon trying to fight your way through all the rooms, even tho it is endless. To achieve this goal you have to fight through
 all the zombies in this dungeon. You can hurt the Zombies by hitting them with your fireball. The higher the level you reach the more points you get (1000 points per level). By killing zombies, you can also get 100 points each.
 If you have cleared all rooms in a level, you will be teleported directly to the next higher level.
 
