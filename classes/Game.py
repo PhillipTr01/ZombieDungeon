@@ -331,8 +331,8 @@ class Game:
                 while room_map[y][x] != 'g' \
                         or abs(self.player.x / config['tile_size'] - x) < 3 \
                         or abs(self.player.y / config['tile_size'] - y) < 3:
-                    x = random.randint(0, len(room_map[0]) - 1)
-                    y = random.randint(0, len(room_map) - 1)
+                    x = random.randint(1, len(room_map[0]) - 2)
+                    y = random.randint(1, len(room_map) - 2)
 
                 room_map[y][x] = 'z'
 
