@@ -4,13 +4,13 @@
 - [x] Player
 - [x] Pause Screen
 - [x] Start and Game Over screen
-    - [x] Start Screen as Menu with Start, Exit, OPTIONAL: Highscore (Highscore müsste dafür implementiert werden)
+    - [x] Start Screen as Menu with Start, Exit
     - [x] Try again button beim Game over screen (In main class ändern)
 - [x] Collision
     - [x] Zombie against Wall
 - [ ] Rooms (ergänzen)
-- [ ] Zombies
-    - [ ] Logic (better Movement)
+- [X] Zombies
+    - [X] Logic (better Movement)
 
 ## Phillip
 - [X] Projectiles
@@ -24,7 +24,7 @@
 
 ## Allgemein
 - [ ] Logging
-- [ ] Kommentare hinzufügen
-- [ ] Doc Strings ergänzen / überarbeiten
-- [ ] README.md überarbeiten
-- [ ] Sounds hinzufügen (Stellen sind markiert)
+- [X] Kommentare hinzufügen
+- [X] Doc Strings ergänzen / überarbeiten
+- [X] README.md überarbeiten
+- [ ] Sounds hinzufügen (OPTIONAL)

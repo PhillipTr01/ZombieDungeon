@@ -14,6 +14,7 @@
         [2} Player Logic and Tilebased Games:
             https://www.youtube.com/channel/UCNaPQ5uLX5iIEHUCLmfAgKg
 """
+import pygame.sprite
 
 from classes.Weapons import *
 
@@ -120,23 +121,6 @@ class Player(pygame.sprite.Sprite):
 
         if self.invincible_count > 0:
             self.invincible_count -= 1
-
-    def wall_collide(self, direction):
-        hits = pygame.sprite.spritecollide(self, self.game.collision_sprites, False)
-        if direction == "x" and hits:
-            if self.mx > 0:
-                self.x = hits[0].rect.left - self.rect.width
-            if self.mx < 0:
-                self.x = hits[0].rect.right
-            self.mx = 0
-            self.rect.x = self.x
-        if direction == "y" and hits:
-            if self.my > 0:
-                self.y = hits[0].rect.top - self.rect.height
-            if self.my < 0:
-                self.y = hits[0].rect.bottom
-            self.my = 0
-            self.rect.y = self.y
 
     # ------------ Sprites ------------ #
 
@@ -295,7 +279,7 @@ class Player(pygame.sprite.Sprite):
         if key[pygame.K_LEFT] and not key[pygame.K_RIGHT]:
             if self.shoot_delay == 0:
                 self.shoot_delay = config['weapon_shoot_delay']
-                Fireball(self.game, self.x, self.y, 'left')
+                Fireball(self.game, self.x - 35, self.y + 15, 'left')
 
             direction = "left"
 
@@ -303,7 +287,7 @@ class Player(pygame.sprite.Sprite):
         elif key[pygame.K_RIGHT] and not key[pygame.K_LEFT]:
             if self.shoot_delay == 0:
                 self.shoot_delay = config['weapon_shoot_delay']
-                Fireball(self.game, self.x, self.y, 'right')
+                Fireball(self.game, self.x + 50, self.y + 15, 'right')
 
             direction = "right"
 
@@ -311,7 +295,7 @@ class Player(pygame.sprite.Sprite):
         elif key[pygame.K_UP] and not key[pygame.K_DOWN]:
             if self.shoot_delay == 0:
                 self.shoot_delay = config['weapon_shoot_delay']
-                Fireball(self.game, self.x, self.y, 'up')
+                Fireball(self.game, self.x + 5, self.y - 35, 'up')
 
             direction = "up"
 
@@ -319,7 +303,7 @@ class Player(pygame.sprite.Sprite):
         elif key[pygame.K_DOWN] and not key[pygame.K_UP]:
             if self.shoot_delay == 0:
                 self.shoot_delay = config['weapon_shoot_delay']
-                Fireball(self.game, self.x, self.y, 'down')
+                Fireball(self.game, self.x + 5, self.y + 35, 'down')
 
             direction = "down"
 
@@ -327,3 +311,38 @@ class Player(pygame.sprite.Sprite):
             self.shoot_delay -= 1
 
         self.sprite_update(direction)
+
+    def wall_collide(self, axis):
+        """ wall_collide
+
+            check if player collides with wall
+
+            param:
+                axis(str): axis we are going to look at
+
+            return:
+                none
+
+            test:
+                * player colliding with a collision sprite is recognized
+                * position of player is fixed correctly
+        """
+        sprite = pygame.sprite.spritecollideany(self, self.game.collision_sprites)
+
+        # Reset in x position
+        if axis == "x" and sprite:
+            if self.mx > 0:
+                self.x = sprite.rect.left - self.rect.width
+            if self.mx < 0:
+                self.x = sprite.rect.right
+            self.mx = 0
+            self.rect.x = self.x
+
+        # Reset in y position
+        if axis == "y" and sprite:
+            if self.my > 0:
+                self.y = sprite.rect.top - self.rect.height
+            if self.my < 0:
+                self.y = sprite.rect.bottom
+            self.my = 0
+            self.rect.y = self.y

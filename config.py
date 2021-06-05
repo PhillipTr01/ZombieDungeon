@@ -43,5 +43,5 @@ config = {
     'weapon_speed': 10,     # Pixels per Second
     'weapon_lifetime': 900,    # in milliseconds
     'weapon_damage': 1,
-    'weapon_shoot_delay': 30    # If set to 0 the player will be able to spam the weapon
+    'weapon_shoot_delay': 30   # If set to 0 the player will be able to spam the weapon
 }

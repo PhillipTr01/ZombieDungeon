@@ -77,6 +77,17 @@ class Zombie(pygame.sprite.Sprite):
         # Change position
         self.x += self.mx * self.game.dt
         self.y += self.my * self.game.dt
+
+        if self.x < 75:
+            self.x = 120
+        elif self.x > 1125:
+            self.x = 1125 - 120
+
+        if self.y < 75:
+            self.y = 120
+        elif self.y > 675:
+            self.y = 675 - 120
+
         self.rect.x = self.x
         self.collide_check("x", self.game.collision_sprites)
         self.rect.y = self.y
@@ -119,21 +130,13 @@ class Zombie(pygame.sprite.Sprite):
                 self.game.player.health -= config['zombie_damage']
                 self.game.player.invincible_count = 50
 
-        # TODO: Zombies should no longer be able to move inside themself
-
-        # print(len(self.game.enemy_sprites))
-        # for sprite in self.game.enemy_sprites:
-        #     print(pygame.sprite.collide_rect(self, sprite), end=",")
-        # print()
+        # TODO: Zombies should no longer be able to move inside other instances / themself
 
         if self.invincible_count > 0:
             self.invincible_count -= 1
 
         # [OPEN] to add:
-        #   - Collision with other Enemies
-        #   - Collision with Walls
         #   - "Knockback" on Weapon- / Fireballcollision
-        #   - Better collision with player
 
     # ------------ Sprites ------------ #
 
@@ -292,19 +295,39 @@ class Zombie(pygame.sprite.Sprite):
             else:
                 self.sprite_update("left")
 
-    def collide_check(self, direction, target):
+    def collide_check(self, axis, target):
+        """ collide_check
+
+            check if player collides with wall
+
+            param:
+                axis(str): axis we are going to look at
+                target(group of sprites): sprites to check collision against with
+
+            return:
+                none
+
+            test:
+                * zombie colliding with a collision sprite is recognized
+                *
+        """
+
         hits = pygame.sprite.spritecollide(self, target, False)
-        if direction == "x" and hits:
-            if self.mx > 0:
+
+        # Reset in x position
+        if axis == "x" and hits:
+            if self.mx > 35:
                 self.x = hits[0].rect.left - self.rect.width
-            if self.mx < 0:
+            if self.mx < 35:
                 self.x = hits[0].rect.right
             self.mx = 0
             self.rect.x = self.x
-        if direction == "y" and hits:
-            if self.my > 0:
+
+        # Reset in y position
+        if axis == "y" and hits:
+            if self.my > 35:
                 self.y = hits[0].rect.top - self.rect.height
-            if self.my < 0:
+            if self.my < 35:
                 self.y = hits[0].rect.bottom
             self.my = 0
             self.rect.y = self.y

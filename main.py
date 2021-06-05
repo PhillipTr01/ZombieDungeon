@@ -24,8 +24,6 @@ if __name__ == "__main__":
 
     while True:
 
-        active_game.general_key_events()
-
         if active_game.game_state == 0:  # Program is running (start screen)
             active_game.start_screen()
         elif active_game.game_state == 1:  # Game has been started
@@ -38,3 +36,5 @@ if __name__ == "__main__":
             del active_game
             active_game = Game()
             active_game.game_state = 1
+
+        active_game.general_key_events()

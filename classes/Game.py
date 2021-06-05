@@ -32,7 +32,7 @@ class Game:
         this class is the heart of the game, everything will be processed here
 
         attributes:
-            dt(int): [OPEN]
+            dt(int): delta time
             font(font): font for texts
             screen(surface): game window
             gamestate(int): the state the game is in (Started Program, started game, paused game, lost game)
@@ -50,6 +50,9 @@ class Game:
             current_x(int): x-coordinate of current room on grid
             current_y(int): y-coordinate of current room on grid
             copied_room(2d-list of str): deep-copied room map
+            start_button_rect(rect): rectangle of start button
+            exit_button_rect(rect): rectangle of exit button
+            restart_button_rect(rect): rectangle of restart button
 
         test:
             * Game processes everything right - no errors while playing
@@ -171,15 +174,13 @@ class Game:
         fade = pygame.Surface((config['resolution_width'], config['resolution_height']))    # [2]
         fade.fill((0, 0, 0))
 
-        current_room = self.level_grid.grid[self.current_y][self.current_x]
-
-        current_room.status = 2
+        self.level_grid.grid[self.current_y][self.current_x].status = 2
         self.level_grid.room_count -= 1
 
         # add doors to the room and decode the room again
-        self.copied_room = copy.deepcopy(rooms[current_room.room_number])
-        self.add_doors(current_room)
-        self.room_decoding(rooms[current_room.room_number], 'none')
+        self.copied_room = copy.deepcopy(rooms[self.level_grid.grid[self.current_y][self.current_x].room_number])
+        self.add_doors(self.level_grid.grid[self.current_y][self.current_x])
+        self.room_decoding(rooms[self.level_grid.grid[self.current_y][self.current_x].room_number], 'none')
 
         # if all rooms has been cleared go to the next level (new map)
         if self.level_grid.room_count == 0:
@@ -201,7 +202,7 @@ class Game:
             self.current_y = self.level_grid.start_y
 
             # deep-copy room and decode it
-            self.copied_room = copy.deepcopy(rooms[current_room.room_number])
+            self.copied_room = copy.deepcopy(rooms[self.level_grid.grid[self.current_y][self.current_x].room_number])
             self.room_decoding(rooms[0], 'start')
 
             # Change position and give player full health
@@ -321,7 +322,7 @@ class Game:
 
             # determine zombie count random
             self.zombie_count = random.randint(config['min_zombie_count'], config['max_zombie_count'])
-            print("Zombie Count" + str(self.zombie_count))
+
             for count in range(self.zombie_count):
                 x = 0
                 y = 0
@@ -416,23 +417,18 @@ class Game:
         start_label = self.font.render("Welcome to Zombie Dungeon", True, (48, 131, 255))
         self.screen.blit(start_label, (self.screen.get_width() / 2 - start_label.get_width() / 2,
                                        self.screen.get_height() / 4))
+
+        # start button
         start_button_text = self.font.render(">>Start<<", True, (48, 131, 255))
         self.start_button_rect = start_button_text.get_rect()
-        self.start_button_rect.centerx = self.screen.get_width() / 2 + 0.5 * start_button_text.get_width() / 2
-        self.start_button_rect.centery = (self.screen.get_height() / 4) + start_button_text.get_height() * 4
-        # pygame.draw.rect(self.screen, (255, 255, 255), self.start_button_rect)
-        self.screen.blit(start_button_text, self.start_button_rect)
+        self.start_button_rect.topleft = (self.screen.get_width() / 2 - start_button_text.get_width() / 2, self.screen.get_height() / 4 + 150)
+        self.screen.blit(start_button_text, (self.screen.get_width() / 2 - start_button_text.get_width() / 2, self.screen.get_height() / 4 + 150))
 
+        # exit button
         exit_button_text = self.font.render(">>Exit<<", True, (48, 131, 255))
         self.exit_button_rect = exit_button_text.get_rect()
-        self.exit_button_rect.centerx = self.screen.get_width() / 2 + 0.5 * start_button_text.get_width() / 2
-        self.exit_button_rect.centery = (self.screen.get_height() / 4) + start_button_text.get_height() * 7
-        # pygame.draw.rect(self.screen, (255, 255, 255), self.exit_button_rect)
-        self.screen.blit(exit_button_text, self.exit_button_rect)
-
-        # start_label2 = self.font.render("Press Enter to Start the Game!", True, (48, 131, 255))
-        # self.screen.blit(start_label2, (self.screen.get_width() / 2 - start_label2.get_width() / 2,
-        # (self.screen.get_height() / 2.5) + 100))
+        self.exit_button_rect.topleft = (self.screen.get_width() / 2 - exit_button_text.get_width() / 2, self.screen.get_height() / 4 + 250)
+        self.screen.blit(exit_button_text, (self.screen.get_width() / 2 - exit_button_text.get_width() / 2, self.screen.get_height() / 4 + 250))
 
         pygame.display.flip()
 
@@ -467,8 +463,6 @@ class Game:
         self.screen.blit(pause_label2, (self.screen.get_width() / 2 - pause_label2.get_width() / 2,
                                         (self.screen.get_height() / 2.5) + 100))
 
-
-
     def game_over_screen(self):
         """ game_over_screen
 
@@ -499,12 +493,11 @@ class Game:
         self.screen.blit(game_over_label, (self.screen.get_width() / 2 - game_over_label.get_width() / 2, self.screen.get_height() / 3.5))
         self.screen.blit(game_over_label2, (self.screen.get_width() / 2 - game_over_label2.get_width() / 2, (self.screen.get_height() / 3.5) + 100))
 
+        # restart button
         restart_text = self.font.render('>>Restart<<', True, (255, 255, 255))
         self.restart_button_rect = restart_text.get_rect()
-        self.restart_button_rect.centerx = self.screen.get_width() / 2
-        self.restart_button_rect.centery = (self.screen.get_height() / 2.5) + 200
-        self.screen.blit(restart_text, self.restart_button_rect)
-
+        self.restart_button_rect.topleft = (self.screen.get_width() / 2 - restart_text.get_width() / 2, self.screen.get_height() / 2 + 100)
+        self.screen.blit(restart_text, (self.screen.get_width() / 2 - restart_text.get_width() / 2, self.screen.get_height() / 2 + 100))
 
         pygame.display.flip()
 

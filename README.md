@@ -10,6 +10,7 @@
 
 - From python 3.8.5 standard library:
 	- copy
+	- logging
 	- random
 	- sys
 - pygame (version 2.0.1)

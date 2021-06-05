@@ -12,7 +12,7 @@
         none
 """
 
-# Zombies and Doors are not needed! Will be added later
+# Zombies and Doors are not needed! Will be added later in game class
 w = "w"  # Wall
 g = "g"  # Ground
 p = "p"  # Player Spawn
@@ -68,7 +68,7 @@ rooms = [[[w, w, w, w, w, w, w, w, w, w, w, w, w, w, w],  # Room 0
           [w, g, g, g, g, g, g, g, g, g, g, g, g, g, w],
           [w, w, w, w, w, w, w, w, w, w, w, w, w, w, w]],
 
-        [[w, w, w, w, w, w, w, w, w, w, w, w, w, w, w],  # Room X
+        [[w, w, w, w, w, w, w, w, w, w, w, w, w, w, w],  # Room 5
           [w, g, g, g, g, g, g, g, g, g, g, g, g, g, w],
           [w, g, g, g, g, g, g, g, g, g, g, g, g, g, w],
           [w, g, g, g, g, g, g, g, g, g, g, g, g, g, w],
@@ -76,9 +76,7 @@ rooms = [[[w, w, w, w, w, w, w, w, w, w, w, w, w, w, w],  # Room 0
           [w, g, g, g, g, g, g, g, g, g, g, g, g, g, w],
           [w, g, g, g, g, g, g, g, g, g, g, g, g, g, w],
           [w, g, g, g, g, g, g, g, g, g, g, g, g, g, w],
-          [w, w, w, w, w, w, w, w, w, w, w, w, w, w, w]]
-
-         ]
+          [w, w, w, w, w, w, w, w, w, w, w, w, w, w, w]]]
 
 
 
