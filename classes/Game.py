@@ -288,11 +288,11 @@ class Game:
         self.weapon_sprites = pygame.sprite.Group()
 
         # add doors to the start room
-        if next_room_direction == 'start':
+        if next_room_direction == 'start' or self.level_grid.grid[self.current_y][self.current_x].status == 2:
             self.add_doors(self.level_grid.grid[self.current_y][self.current_x])
 
         # move player to the right position (if he left the previous room on the left, he should spawn on the right)
-        elif next_room_direction == 'left':
+        if next_room_direction == 'left':
             self.player.x = (len(rooms[0][0]) - 2) * config['tile_size']
             self.player.y = (round((len(rooms[0]) - 1) / 2)) * config['tile_size']
         elif next_room_direction == 'right':
