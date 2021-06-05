@@ -50,7 +50,7 @@ class Room:
         attributes:
             x(int): x-coordinate of position on grid
             y(int): y-coordinate of position on grid
-            doors(array of str): contains the information of door-positions
+            doors(list of str): contains the information of door-positions
             previous_room(str): direction of previous room
             room_number(int): index of 'rooms-array' (above)
             status(int): status of the room [0 - Created; 1 - Visited; 2 - Visiting but cleared; 3 - Cleared]

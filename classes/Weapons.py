@@ -11,7 +11,6 @@
     Sources:
         [1] Fireball (Sprites):
             Link: https://www.pngitem.com/pimgs/m/64-641943_8-bit-cherry-png-download-mario-fireball-8.png
-
 """
 
 import pygame
@@ -54,6 +53,8 @@ class Fireball(pygame.sprite.Sprite):
             self.image = pygame.transform.scale(pygame.image.load("images/player/weapons/fireball_down.png"),   # [1]
                                                 (config['weapon_size'], config['weapon_size']))
 
+        # [SOUND]: fireball shoot sound can be added here
+
         self.dir = dir
         self.rect = self.image.get_rect()
         self.rect.x = x
@@ -66,7 +67,7 @@ class Fireball(pygame.sprite.Sprite):
         """
         update
 
-            this method updates the position of the Fireball and eventually kills the instance.
+            this method updates the position of the fireball and eventually kills the instance.
 
             param:
                 none

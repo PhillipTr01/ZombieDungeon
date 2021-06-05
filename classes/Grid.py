@@ -28,7 +28,7 @@ class Grid:
             - The Rooms created are distributed on this grid
 
         attributes:
-            grid(2d-array of rooms): represents the map. contains
+            grid(2d-list of room): represents the map
             size_x(int): size of grid in x-axis
             size_y(int): size of grid in y-axis
             start_x(int): x-coordinate of start_room
@@ -73,7 +73,7 @@ class Grid:
 
                         - possible_ways array is filled with ['right', 'up', 'down']
 
-                        if element 2 has been chosen, then the grid will look like this:
+                        if the second element has been chosen, then the grid will look like this:
                         x x o o o
                         x x o c o
                         o x x x o

@@ -1,6 +1,6 @@
 """ Python Top Down Shooter - ZombieDungeon
     *
-    * This class portrays all static objects
+    *
 
     param:
         Author: Stefan Nemanja Banov & Phillip Tran
@@ -20,11 +20,18 @@ from config import *
 
 class Ground(pygame.sprite.Sprite):
     """ Ground
-        *
-        * This class portrays all static objects
 
-        type:
-            pygame.sprite.Sprite
+        embodies a passable structure object.
+
+        attributes:
+            image(surface): sprite of ground
+            rect(rect): rectangle of ground
+            rect.x(int): coordinates of ground in x-axis
+            rect.y(int): coordinates of ground in y-axis
+
+        test:
+            * right sprite is displayed
+            * position is correct
     """
     def __init__(self, game, x, y):
         pygame.sprite.Sprite.__init__(self, game.background_sprites)
@@ -36,19 +43,19 @@ class Ground(pygame.sprite.Sprite):
 
 
 class Wall(pygame.sprite.Sprite):
-    """ Python Top Down Shooter - ZombieDungeon
-        *
-        * This class portrays all static objects
+    """ Wall
 
-        param:
-            Author: Stefan Nemanja Banov & Phillip Tran
-            Date: 06.06.2021
-            Version: 1.0.0
-            License: free
+        embodies an obstacle. Moving objects like the enemies and players can't pass this object
 
-        Sources:
-            [1] Sprites:
-                    Designer: Nina Vukovic (Friend of developer)
+        attributes:
+            image(surface): sprite of wall
+            rect(rect): rectangle of wall
+            rect.x(int): coordinates of wall in x-axis
+            rect.y(int): coordinates of wall in y-axis
+
+        test:
+            * right sprite is displayed
+            * position is correct
     """
     def __init__(self, game, x, y):
         pygame.sprite.Sprite.__init__(self, game.collision_sprites)
@@ -60,19 +67,19 @@ class Wall(pygame.sprite.Sprite):
 
 
 class Door(pygame.sprite.Sprite):
-    """ Python Top Down Shooter - ZombieDungeon
-        *
-        * This class portrays all static objects
+    """ Door
 
-        param:
-            Author: Stefan Nemanja Banov & Phillip Tran
-            Date: 06.06.2021
-            Version: 1.0.0
-            License: free
+        embodies the doors of the room. This object spawns when all zombies of the room have been killed.
 
-        Sources:
-            [1] Sprites:
-                    Designer: Nina Vukovic (Friend of developer)
+        attributes:
+            image(surface): sprite of door
+            rect(rect): rectangle of door
+            rect.x(int): coordinates of door in x-axis
+            rect.y(int): coordinates of door in y-axis
+
+        test:
+            * right sprite is displayed
+            * position is correct
     """
     def __init__(self, game, x, y):
         pygame.sprite.Sprite.__init__(self, game.door_sprites)

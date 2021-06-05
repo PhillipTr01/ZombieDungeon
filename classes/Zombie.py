@@ -11,7 +11,6 @@
     Sources:
         [1] Sprites:
                 Designer: Nina Vukovic (Friend of developer) and Stefan Nemanja Banov
-
 """
 
 import pygame
@@ -25,7 +24,7 @@ class Zombie(pygame.sprite.Sprite):
         this class portrays the zombie, the enemy of the player
 
         attributes:
-            sprites(array of surfaces): contains all images / sprites of zombie
+            sprites(list of surface): contains all images / sprites of zombie
             current_sprite(int): declares which sprite should be displayed
             image(surface): current sprite
             rect(rect): rectangle of zombie
@@ -34,12 +33,13 @@ class Zombie(pygame.sprite.Sprite):
             game(game): current game running
             mx(float): movement indicator on x-axis
             my(float): movement indicator on y-axis
-            animation_time(int):
+            animation_time(int): interval a new sprite is chosen
             health(int): health of zombie
-            invincible_count(int): interval the zombie can get hurt
+            invincible_count(int): interval the zombie can get damage
 
         test:
-            * -
+            * Zombie spawns on correct position (doesn't collide on spawn)
+            * [OPEN]
     """
 
     def __init__(self, game, x, y):
@@ -55,14 +55,14 @@ class Zombie(pygame.sprite.Sprite):
         self.mx = 0
         self.my = 0
         self.animation_time = 0
+
         self.health = config['zombie_health']
         self.invincible_count = 0
 
     def update(self):
-        """
-        update
+        """ update
 
-            -
+            this method updates the position of the zombie and handles collisions
 
             param:
                 none
@@ -71,62 +71,67 @@ class Zombie(pygame.sprite.Sprite):
                 none
 
             test:
-                * -
+                * is moving in the right direction
+                * collision is detected and further action is taken
         """
         self.ai_movement()
+
+        # [SOUND]: Zombie base sound can be added here
+
+        # Change position
         self.x += self.mx * self.game.dt
         self.y += self.my * self.game.dt
         self.rect.topleft = (self.x, self.y)
 
+        # Collide with weapon / fireball
         if pygame.sprite.spritecollideany(self, self.game.weapon_sprites):
             sprite = pygame.sprite.spritecollideany(self, self.game.weapon_sprites)
             sprite.kill()
 
+            # if zombie is not "invincible" he gets damage
             if self.invincible_count == 0:
+                # Zombie gets damage
+                # [SOUND]: Zombie hurt sound can be added here
                 self.health -= config['weapon_damage']
-                self.invincible_count = 5
+                self.invincible_count = config['zombie_invincible_time']
 
-                '''
-                if sprite.rect.x - sprite.rect.size[0] < self.x - self.rect.size[1]:
-                    self.x += 50
-                elif sprite.rect.x - sprite.rect.size[0] >= self.x - self.rect.size[1]:
-                    self.x -= 50
-                elif sprite.rect.y - sprite.rect.size[0] < self.y - self.rect.size[1]:
-                    self.y += 50
-                elif sprite.rect.y - sprite.rect.size[0] >= self.y - self.rect.size[1]:
-                    self.y -= 50
-                '''
-
+                # zombie gets killed, player gains 100 points
                 if self.health == 0:
+                    # [SOUND]: Zombie death sound can be added here
                     self.game.zombie_count -= 1
                     self.game.score += 100
                     self.kill()
 
+                # Detect if all zombies have been killed
                 if self.game.zombie_count == 0:
                     self.game.room_cleared()
 
-        if pygame.sprite.spritecollideany(self, self.game.collision_sprites):
-            self.x -= self.mx * self.game.dt
-            self.y -= self.my * self.game.dt
-            self.rect.topleft = (self.x, self.y)
-
+        # Collide with Player
         if pygame.sprite.spritecollideany(self, self.game.character_sprites):
+            # Reset position so that zombie doesn't pass or goes through player
             self.x -= self.mx * self.game.dt
             self.y -= self.my * self.game.dt
             self.rect.topleft = (self.x, self.y)
 
+            # if player is not "invincible" he gets damage
             if self.game.player.invincible_count == 0:
-                self.game.player.get_damage(config['zombie_damage'])
+                # [SOUND]: Player hurt sound can be added here
+                self.game.player.health -= config['zombie_damage']
                 self.game.player.invincible_count = 50
 
         if self.invincible_count > 0:
             self.invincible_count -= 1
 
+        # [OPEN] to add:
+        #   - Collision with other Enemies
+        #   - Collision with Walls
+        #   - "Knockback" on Weapon- / Fireballcollision
+        #   - Better collision with player
+
     # ------------ Sprites ------------ #
 
     def initialize_sprites(self):
-        """
-        initialize_sprites
+        """ initialize_sprites
 
             loads all the sprites into the sprite array
 
@@ -174,8 +179,7 @@ class Zombie(pygame.sprite.Sprite):
                                                    (config['zombie_size'], config['zombie_size'])))
 
     def sprite_update(self, direction):
-        """
-        sprite_update
+        """ sprite_update
 
             updates the index of current sprite to create an animation
 
@@ -233,8 +237,7 @@ class Zombie(pygame.sprite.Sprite):
     # ------------ Movement ------------ #
 
     def ai_movement(self):
-        """
-        ai_movement
+        """ ai_movement
 
             algorithm to check in which direction the zombie shall move
 
@@ -265,10 +268,12 @@ class Zombie(pygame.sprite.Sprite):
         else:
             self.mx = -config['zombie_speed']
 
+        # moving diagonally
         if self.mx != 0 and self.my != 0:
             self.mx *= 0.7071
             self.my *= 0.7071
 
+        # Check which variable is bigger, to decide in which direction the zombie is looking
         if abs(suby) > abs(subx):
             if suby < 0:
                 self.sprite_update("down")
