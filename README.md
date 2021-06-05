@@ -15,13 +15,14 @@
 	- sys
 - pygame (version 2.0.1)
 
+**To install the requirements type into the command prompt ```pip install -r requirements.txt```** 
+
 ## How to play / install this game
 
- 1. **Import / Install the required modules**
- 2. **Clone this repository**
- 3. **Open a command prompt**
- 4. **Navigate to the local repository**
- 5. **To execute the python script type in: ```python main.py```**
+ 1. **Clone this repository**
+ 2. **Open a command prompt**
+ 3. **Navigate to the local repository**
+ 4. **To execute the python script type in: ```python main.py```**
 
 ## Game description
 ### Goal
