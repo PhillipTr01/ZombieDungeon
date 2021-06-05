@@ -6,8 +6,8 @@
 - [ ] Start and Game Over screen
     - [ ] Start Screen as Menu with Start, Exit, OPTIONAL: Highscore (Highscore müsste dafür implementiert werden)
     - [ ] Try again button beim Game over screen (In main class ändern)
-- [ ] Collision
-    - [ ] Zombie against Wall
+- [x] Collision
+    - [x] Zombie against Wall
 - [ ] Rooms (ergänzen)
 - [ ] Zombies
     - [ ] Logic (better Movement)

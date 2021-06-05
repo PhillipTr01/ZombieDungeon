@@ -83,6 +83,13 @@ class Zombie(pygame.sprite.Sprite):
         self.y += self.my * self.game.dt
         self.rect.topleft = (self.x, self.y)
 
+        # Collide with wall
+        if pygame.sprite.spritecollideany(self, self.game.collision_sprites):
+            # Reset position so that player doesn't pass or goes through the wall
+            self.x -= self.mx * self.game.dt
+            self.y -= self.my * self.game.dt
+            self.rect.topleft = (self.x, self.y)
+
         # Collide with weapon / fireball
         if pygame.sprite.spritecollideany(self, self.game.weapon_sprites):
             sprite = pygame.sprite.spritecollideany(self, self.game.weapon_sprites)

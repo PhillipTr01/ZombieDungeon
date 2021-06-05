@@ -34,7 +34,6 @@ if __name__ == "__main__":
             active_game.draw()
         elif active_game.gamestate == 3:  # Game over - Give the user opportunity to restart the game
             active_game.game_over_screen()
-
             # Restart game - without going back to the start screen
             if pygame.key.get_pressed()[pygame.K_r]:  # Sollte gegen Try again Button ausgetauscht werden [OPEN]
                 del active_game
