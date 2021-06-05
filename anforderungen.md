@@ -3,15 +3,14 @@
 - [x] Room Reading 
 - [x] Player
 - [x] Pause Screen
-- [ ] Start and Game Over screen
-    - [ ] Start Screen as Menu with Start, Exit, OPTIONAL: Highscore (Highscore müsste dafür implementiert werden)
-    - [ ] Try again button beim Game over screen (In main class ändern)
+- [x] Start and Game Over screen
+    - [x] Start Screen as Menu with Start, Exit, OPTIONAL: Highscore (Highscore müsste dafür implementiert werden)
+    - [x] Try again button beim Game over screen (In main class ändern)
 - [x] Collision
     - [x] Zombie against Wall
 - [ ] Rooms (ergänzen)
 - [ ] Zombies
     - [ ] Logic (better Movement)
-- [ ] Weapon (Sprites eventuell ändern)
 
 ## Phillip
 - [X] Projectiles

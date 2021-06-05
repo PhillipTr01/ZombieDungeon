@@ -62,10 +62,10 @@ class Game:
         pygame.display.set_icon(pygame.image.load('images/game/zombie.png'))
         pygame.key.set_repeat(500, 100)
         self.dt = pygame.time.Clock().tick(config["fps"]) / 1000
-        self.font = pygame.font.Font("fonts/dogicapixel.otf", 30)
+        self.font = pygame.font.Font("fonts/dogicapixel.otf", 35)
         self.screen = pygame.display.set_mode((config['resolution_width'], config['resolution_height']))
 
-        self.gamestate = 0
+        self.game_state = 0
         self.score = 0
         self.level = 1
 
@@ -86,6 +86,9 @@ class Game:
         self.copied_room = copy.deepcopy(rooms[self.level_grid.grid[self.current_y][self.current_x].room_number])
         self.room_decoding(rooms[0], 'start')
 
+        self.start_button_rect = None
+        self.exit_button_rect = None
+        self.restart_button_rect = None
         # [SOUND] Game music can be added here
 
     def update(self):
@@ -134,9 +137,17 @@ class Game:
                 sys.exit()
             elif event.type == pygame.KEYDOWN:
                 # user pauses program
-                if self.gamestate > 0:
+                if self.game_state > 0:
                     if event.key == pygame.K_ESCAPE:
-                        self.gamestate = 1 if self.gamestate == 2 else 2
+                        self.game_state = 1 if self.game_state == 2 else 2
+            elif event.type == pygame.MOUSEBUTTONDOWN:
+                if event.button == 1:
+                    if self.game_state == 0 and self.start_button_rect.collidepoint(event.pos):
+                        self.game_state = 1
+                    elif self.game_state == 0 and self.exit_button_rect.collidepoint(event.pos):
+                        sys.exit()
+                    elif self.game_state == 3 and self.restart_button_rect.collidepoint(event.pos):
+                        self.game_state = 4
 
     def room_cleared(self):
         """ room_cleared
@@ -310,7 +321,7 @@ class Game:
 
             # determine zombie count random
             self.zombie_count = random.randint(config['min_zombie_count'], config['max_zombie_count'])
-
+            print("Zombie Count" + str(self.zombie_count))
             for count in range(self.zombie_count):
                 x = 0
                 y = 0
@@ -403,15 +414,27 @@ class Game:
 
         # define textlabels
         start_label = self.font.render("Welcome to Zombie Dungeon", True, (48, 131, 255))
-        start_label2 = self.font.render("Press Enter to Start the Game!", True, (48, 131, 255))
-        self.screen.blit(start_label, (self.screen.get_width() / 2 - start_label.get_width() / 2, self.screen.get_height() / 2.5))
-        self.screen.blit(start_label2, (self.screen.get_width() / 2 - start_label2.get_width() / 2, (self.screen.get_height() / 2.5) + 100))
+        self.screen.blit(start_label, (self.screen.get_width() / 2 - start_label.get_width() / 2,
+                                       self.screen.get_height() / 4))
+        start_button_text = self.font.render(">>Start<<", True, (48, 131, 255))
+        self.start_button_rect = start_button_text.get_rect()
+        self.start_button_rect.centerx = self.screen.get_width() / 2 + 0.5 * start_button_text.get_width() / 2
+        self.start_button_rect.centery = (self.screen.get_height() / 4) + start_button_text.get_height() * 4
+        # pygame.draw.rect(self.screen, (255, 255, 255), self.start_button_rect)
+        self.screen.blit(start_button_text, self.start_button_rect)
+
+        exit_button_text = self.font.render(">>Exit<<", True, (48, 131, 255))
+        self.exit_button_rect = exit_button_text.get_rect()
+        self.exit_button_rect.centerx = self.screen.get_width() / 2 + 0.5 * start_button_text.get_width() / 2
+        self.exit_button_rect.centery = (self.screen.get_height() / 4) + start_button_text.get_height() * 7
+        # pygame.draw.rect(self.screen, (255, 255, 255), self.exit_button_rect)
+        self.screen.blit(exit_button_text, self.exit_button_rect)
+
+        # start_label2 = self.font.render("Press Enter to Start the Game!", True, (48, 131, 255))
+        # self.screen.blit(start_label2, (self.screen.get_width() / 2 - start_label2.get_width() / 2,
+        # (self.screen.get_height() / 2.5) + 100))
 
         pygame.display.flip()
-
-        key = pygame.key.get_pressed()
-        if key[pygame.K_KP_ENTER] or key[pygame.K_RETURN]:
-            self.gamestate = 1
 
     def pause(self):
         """ pause
@@ -439,8 +462,12 @@ class Game:
         # define textlabels
         pause_label = self.font.render("The game has been paused.", True, (255, 255, 255))
         pause_label2 = self.font.render('Press "ESCAPE" to resume!', True, (255, 255, 255))
-        self.screen.blit(pause_label, (self.screen.get_width() / 2 - pause_label.get_width() / 2, self.screen.get_height() / 2.5))
-        self.screen.blit(pause_label2, (self.screen.get_width() / 2 - pause_label2.get_width() / 2, (self.screen.get_height() / 2.5) + 100))
+        self.screen.blit(pause_label, (self.screen.get_width() / 2 - pause_label.get_width() / 2,
+                                       self.screen.get_height() / 2.5))
+        self.screen.blit(pause_label2, (self.screen.get_width() / 2 - pause_label2.get_width() / 2,
+                                        (self.screen.get_height() / 2.5) + 100))
+
+
 
     def game_over_screen(self):
         """ game_over_screen
@@ -469,8 +496,15 @@ class Game:
         # define textlabels
         game_over_label = self.font.render("Game Over!", True, (255, 255, 255))
         game_over_label2 = self.font.render("Your Score: " + str(self.score), True, (255, 255, 255))
-        self.screen.blit(game_over_label, (self.screen.get_width() / 2 - game_over_label.get_width() / 2, self.screen.get_height() / 2.5))
-        self.screen.blit(game_over_label2, (self.screen.get_width() / 2 - game_over_label2.get_width() / 2, (self.screen.get_height() / 2.5) + 100))
+        self.screen.blit(game_over_label, (self.screen.get_width() / 2 - game_over_label.get_width() / 2, self.screen.get_height() / 3.5))
+        self.screen.blit(game_over_label2, (self.screen.get_width() / 2 - game_over_label2.get_width() / 2, (self.screen.get_height() / 3.5) + 100))
+
+        restart_text = self.font.render('>>Restart<<', True, (255, 255, 255))
+        self.restart_button_rect = restart_text.get_rect()
+        self.restart_button_rect.centerx = self.screen.get_width() / 2
+        self.restart_button_rect.centery = (self.screen.get_height() / 2.5) + 200
+        self.screen.blit(restart_text, self.restart_button_rect)
+
 
         pygame.display.flip()
 
@@ -623,7 +657,7 @@ class Game:
         self.show_map()
 
         # check if game is paused
-        if self.gamestate == 2:
+        if self.game_state == 2:
             self.pause()
 
         pygame.display.flip()

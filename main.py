@@ -26,16 +26,15 @@ if __name__ == "__main__":
 
         active_game.general_key_events()
 
-        if active_game.gamestate == 0:  # Program is running (start screen)
+        if active_game.game_state == 0:  # Program is running (start screen)
             active_game.start_screen()
-        elif active_game.gamestate == 1:  # Game has been started
+        elif active_game.game_state == 1:  # Game has been started
             active_game.update()
-        elif active_game.gamestate == 2:  # Game has been paused
+        elif active_game.game_state == 2:  # Game has been paused
             active_game.draw()
-        elif active_game.gamestate == 3:  # Game over - Give the user opportunity to restart the game
+        elif active_game.game_state == 3:  # Game over - Give the user opportunity to restart the game
             active_game.game_over_screen()
-            # Restart game - without going back to the start screen
-            if pygame.key.get_pressed()[pygame.K_r]:  # Sollte gegen Try again Button ausgetauscht werden [OPEN]
-                del active_game
-                active_game = Game()
-                active_game.gamestate = 1
+        elif active_game.game_state == 4:  # Restart game - without going back to the start screen
+            del active_game
+            active_game = Game()
+            active_game.game_state = 1

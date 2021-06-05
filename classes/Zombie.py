@@ -61,15 +61,11 @@ class Zombie(pygame.sprite.Sprite):
 
     def update(self):
         """ update
-
             this method updates the position of the zombie and handles collisions
-
             param:
                 none
-
             return:
                 none
-
             test:
                 * is moving in the right direction
                 * collision is detected and further action is taken
@@ -81,14 +77,11 @@ class Zombie(pygame.sprite.Sprite):
         # Change position
         self.x += self.mx * self.game.dt
         self.y += self.my * self.game.dt
-        self.rect.topleft = (self.x, self.y)
+        self.rect.x = self.x
+        self.collide_check("x", self.game.collision_sprites)
+        self.rect.y = self.y
+        self.collide_check("y", self.game.collision_sprites)
 
-        # Collide with wall
-        if pygame.sprite.spritecollideany(self, self.game.collision_sprites):
-            # Reset position so that player doesn't pass or goes through the wall
-            self.x -= self.mx * self.game.dt
-            self.y -= self.my * self.game.dt
-            self.rect.topleft = (self.x, self.y)
 
         # Collide with weapon / fireball
         if pygame.sprite.spritecollideany(self, self.game.weapon_sprites):
@@ -125,6 +118,13 @@ class Zombie(pygame.sprite.Sprite):
                 # [SOUND]: Player hurt sound can be added here
                 self.game.player.health -= config['zombie_damage']
                 self.game.player.invincible_count = 50
+
+        # TODO: Zombies should no longer be able to move inside themself
+
+        # print(len(self.game.enemy_sprites))
+        # for sprite in self.game.enemy_sprites:
+        #     print(pygame.sprite.collide_rect(self, sprite), end=",")
+        # print()
 
         if self.invincible_count > 0:
             self.invincible_count -= 1
@@ -292,3 +292,19 @@ class Zombie(pygame.sprite.Sprite):
             else:
                 self.sprite_update("left")
 
+    def collide_check(self, direction, target):
+        hits = pygame.sprite.spritecollide(self, target, False)
+        if direction == "x" and hits:
+            if self.mx > 0:
+                self.x = hits[0].rect.left - self.rect.width
+            if self.mx < 0:
+                self.x = hits[0].rect.right
+            self.mx = 0
+            self.rect.x = self.x
+        if direction == "y" and hits:
+            if self.my > 0:
+                self.y = hits[0].rect.top - self.rect.height
+            if self.my < 0:
+                self.y = hits[0].rect.bottom
+            self.my = 0
+            self.rect.y = self.y

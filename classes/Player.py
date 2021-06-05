@@ -11,6 +11,8 @@
     Sources:
         [1] Player (Sprites):
                 Designer: Nina Vukovic (Friend of developer) and Stefan Nemanja Banov
+        [2} Player Logic and Tilebased Games:
+            https://www.youtube.com/channel/UCNaPQ5uLX5iIEHUCLmfAgKg
 """
 
 from classes.Weapons import *
@@ -78,14 +80,17 @@ class Player(pygame.sprite.Sprite):
         # Game Over
         if self.health == 0:
             # [SOUND]: Game over sound can be added here
-            self.game.gamestate = 3
+            self.game.game_state = 3
 
         # [SOUND]: Player base sound can be added here
 
         # Change position
         self.x += self.mx * self.game.dt
         self.y += self.my * self.game.dt
-        self.rect.topleft = (self.x, self.y)
+        self.rect.x = self.x
+        self.wall_collide("x")
+        self.rect.y = self.y
+        self.wall_collide("y")
 
         # Collide with wall
         if pygame.sprite.spritecollideany(self, self.game.collision_sprites):
@@ -115,6 +120,23 @@ class Player(pygame.sprite.Sprite):
 
         if self.invincible_count > 0:
             self.invincible_count -= 1
+
+    def wall_collide(self, direction):
+        hits = pygame.sprite.spritecollide(self, self.game.collision_sprites, False)
+        if direction == "x" and hits:
+            if self.mx > 0:
+                self.x = hits[0].rect.left - self.rect.width
+            if self.mx < 0:
+                self.x = hits[0].rect.right
+            self.mx = 0
+            self.rect.x = self.x
+        if direction == "y" and hits:
+            if self.my > 0:
+                self.y = hits[0].rect.top - self.rect.height
+            if self.my < 0:
+                self.y = hits[0].rect.bottom
+            self.my = 0
+            self.rect.y = self.y
 
     # ------------ Sprites ------------ #
 

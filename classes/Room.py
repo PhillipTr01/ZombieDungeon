@@ -36,8 +36,50 @@ rooms = [[[w, w, w, w, w, w, w, w, w, w, w, w, w, w, w],  # Room 0
           [w, g, g, g, g, g, g, w, g, g, g, g, g, g, w],
           [w, g, g, g, g, g, g, w, g, g, g, g, g, g, w],
           [w, g, g, g, g, g, g, g, g, g, g, g, g, g, w],
+          [w, w, w, w, w, w, w, w, w, w, w, w, w, w, w]],
+
+         [[w, w, w, w, w, w, w, w, w, w, w, w, w, w, w],  # Room 2
+          [w, g, g, g, g, g, g, g, g, g, g, g, g, g, w],
+          [w, g, g, g, g, g, g, g, g, g, g, g, g, g, w],
+          [w, g, g, g, g, g, g, w, g, g, g, g, g, g, w],
+          [w, g, g, w, w, w, w, w, w, w, w, w, g, g, w],
+          [w, g, g, g, g, g, g, w, g, g, g, g, g, g, w],
+          [w, g, g, g, g, g, g, g, g, g, g, g, g, g, w],
+          [w, g, g, g, g, g, g, g, g, g, g, g, g, g, w],
+          [w, w, w, w, w, w, w, w, w, w, w, w, w, w, w]],
+
+         [[w, w, w, w, w, w, w, w, w, w, w, w, w, w, w],  # Room 3
+          [w, g, g, g, g, g, g, g, g, g, g, g, g, g, w],
+          [w, g, g, g, g, g, g, g, g, g, g, g, g, g, w],
+          [w, g, g, w, w, g, g, w, g, g, w, w, g, g, w],
+          [w, g, g, w, w, g, g, w, g, g, w, w, g, g, w],
+          [w, g, g, w, w, g, g, w, g, g, w, w, g, g, w],
+          [w, g, g, g, g, g, g, g, g, g, g, g, g, g, w],
+          [w, g, g, g, g, g, g, g, g, g, g, g, g, g, w],
+          [w, w, w, w, w, w, w, w, w, w, w, w, w, w, w]],
+
+        [[w, w, w, w, w, w, w, w, w, w, w, w, w, w, w],  # Room 4
+          [w, g, g, g, g, g, g, g, g, g, g, g, g, g, w],
+          [w, g, g, g, g, g, g, g, g, g, g, g, g, g, w],
+          [w, g, g, w, w, w, g, g, g, w, w, w, g, g, w],
+          [w, g, g, w, g, w, g, g, g, w, g, w, g, g, w],
+          [w, g, g, w, w, w, g, g, g, w, w, w, g, g, w],
+          [w, g, g, g, g, g, g, g, g, g, g, g, g, g, w],
+          [w, g, g, g, g, g, g, g, g, g, g, g, g, g, w],
+          [w, w, w, w, w, w, w, w, w, w, w, w, w, w, w]],
+
+        [[w, w, w, w, w, w, w, w, w, w, w, w, w, w, w],  # Room X
+          [w, g, g, g, g, g, g, g, g, g, g, g, g, g, w],
+          [w, g, g, g, g, g, g, g, g, g, g, g, g, g, w],
+          [w, g, g, g, g, g, g, g, g, g, g, g, g, g, w],
+          [w, g, g, g, g, g, g, g, g, g, g, g, g, g, w],
+          [w, g, g, g, g, g, g, g, g, g, g, g, g, g, w],
+          [w, g, g, g, g, g, g, g, g, g, g, g, g, g, w],
+          [w, g, g, g, g, g, g, g, g, g, g, g, g, g, w],
           [w, w, w, w, w, w, w, w, w, w, w, w, w, w, w]]
+
          ]
+
 
 
 class Room:
