@@ -19,11 +19,20 @@
 
 import copy
 import sys
+import logging
 
 from classes.Grid import *
 from classes.Player import *
 from classes.Objects import *
 from classes.Zombie import *
+
+# Configuration for logging library
+logging.basicConfig(filename="logs/ZombieDungeon.log", level=logging.DEBUG)
+logging.info("Info")
+logging.debug("Debug")
+logging.warning("Warning")
+logging.error("Error")
+logging.critical("Critical")
 
 
 class Game:

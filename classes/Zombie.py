@@ -92,7 +92,6 @@ class Zombie(pygame.sprite.Sprite):
         self.rect.y = self.y
         self.collide_check("y", self.game.collision_sprites)
 
-
         # Collide with weapon / fireball
         if pygame.sprite.spritecollideany(self, self.game.weapon_sprites):
             sprite = pygame.sprite.spritecollideany(self, self.game.weapon_sprites)
