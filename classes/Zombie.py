@@ -12,6 +12,7 @@
         [1] Sprites:
                 Designer: Nina Vukovic (Friend of developer) and Stefan Nemanja Banov
 """
+import logging
 
 import pygame
 
@@ -159,38 +160,41 @@ class Zombie(pygame.sprite.Sprite):
                 * sprites are appended correct (size & image is right)
                 * all sprites are appended
         """
-        self.sprites.append(pygame.transform.scale(pygame.image.load("images/zombie/tile000.png"),  # [1]
-                                                   (config['zombie_size'], config['zombie_size'])))
-        self.sprites.append(pygame.transform.scale(pygame.image.load("images/zombie/tile001.png"),
-                                                   (config['zombie_size'], config['zombie_size'])))
-        self.sprites.append(pygame.transform.scale(pygame.image.load("images/zombie/tile002.png"),
-                                                   (config['zombie_size'], config['zombie_size'])))
-        self.sprites.append(pygame.transform.scale(pygame.image.load("images/zombie/tile003.png"),
-                                                   (config['zombie_size'], config['zombie_size'])))
-        self.sprites.append(pygame.transform.scale(pygame.image.load("images/zombie/tile004.png"),
-                                                   (config['zombie_size'], config['zombie_size'])))
-        self.sprites.append(pygame.transform.scale(pygame.image.load("images/zombie/tile005.png"),
-                                                   (config['zombie_size'], config['zombie_size'])))
-        self.sprites.append(pygame.transform.scale(pygame.image.load("images/zombie/tile006.png"),
-                                                   (config['zombie_size'], config['zombie_size'])))
-        self.sprites.append(pygame.transform.scale(pygame.image.load("images/zombie/tile007.png"),
-                                                   (config['zombie_size'], config['zombie_size'])))
-        self.sprites.append(pygame.transform.scale(pygame.image.load("images/zombie/tile008.png"),
-                                                   (config['zombie_size'], config['zombie_size'])))
-        self.sprites.append(pygame.transform.scale(pygame.image.load("images/zombie/tile009.png"),
-                                                   (config['zombie_size'], config['zombie_size'])))
-        self.sprites.append(pygame.transform.scale(pygame.image.load("images/zombie/tile010.png"),
-                                                   (config['zombie_size'], config['zombie_size'])))
-        self.sprites.append(pygame.transform.scale(pygame.image.load("images/zombie/tile011.png"),
-                                                   (config['zombie_size'], config['zombie_size'])))
-        self.sprites.append(pygame.transform.scale(pygame.image.load("images/zombie/tile012.png"),
-                                                   (config['zombie_size'], config['zombie_size'])))
-        self.sprites.append(pygame.transform.scale(pygame.image.load("images/zombie/tile013.png"),
-                                                   (config['zombie_size'], config['zombie_size'])))
-        self.sprites.append(pygame.transform.scale(pygame.image.load("images/zombie/tile014.png"),
-                                                   (config['zombie_size'], config['zombie_size'])))
-        self.sprites.append(pygame.transform.scale(pygame.image.load("images/zombie/tile015.png"),
-                                                   (config['zombie_size'], config['zombie_size'])))
+        try:
+            self.sprites.append(pygame.transform.scale(pygame.image.load("images/zombie/tile000.png"),  # [1]
+                                                       (config['zombie_size'], config['zombie_size'])))
+            self.sprites.append(pygame.transform.scale(pygame.image.load("images/zombie/tile001.png"),
+                                                       (config['zombie_size'], config['zombie_size'])))
+            self.sprites.append(pygame.transform.scale(pygame.image.load("images/zombie/tile002.png"),
+                                                       (config['zombie_size'], config['zombie_size'])))
+            self.sprites.append(pygame.transform.scale(pygame.image.load("images/zombie/tile003.png"),
+                                                       (config['zombie_size'], config['zombie_size'])))
+            self.sprites.append(pygame.transform.scale(pygame.image.load("images/zombie/tile004.png"),
+                                                       (config['zombie_size'], config['zombie_size'])))
+            self.sprites.append(pygame.transform.scale(pygame.image.load("images/zombie/tile005.png"),
+                                                       (config['zombie_size'], config['zombie_size'])))
+            self.sprites.append(pygame.transform.scale(pygame.image.load("images/zombie/tile006.png"),
+                                                       (config['zombie_size'], config['zombie_size'])))
+            self.sprites.append(pygame.transform.scale(pygame.image.load("images/zombie/tile007.png"),
+                                                       (config['zombie_size'], config['zombie_size'])))
+            self.sprites.append(pygame.transform.scale(pygame.image.load("images/zombie/tile008.png"),
+                                                       (config['zombie_size'], config['zombie_size'])))
+            self.sprites.append(pygame.transform.scale(pygame.image.load("images/zombie/tile009.png"),
+                                                       (config['zombie_size'], config['zombie_size'])))
+            self.sprites.append(pygame.transform.scale(pygame.image.load("images/zombie/tile010.png"),
+                                                       (config['zombie_size'], config['zombie_size'])))
+            self.sprites.append(pygame.transform.scale(pygame.image.load("images/zombie/tile011.png"),
+                                                       (config['zombie_size'], config['zombie_size'])))
+            self.sprites.append(pygame.transform.scale(pygame.image.load("images/zombie/tile012.png"),
+                                                       (config['zombie_size'], config['zombie_size'])))
+            self.sprites.append(pygame.transform.scale(pygame.image.load("images/zombie/tile013.png"),
+                                                       (config['zombie_size'], config['zombie_size'])))
+            self.sprites.append(pygame.transform.scale(pygame.image.load("images/zombie/tile014.png"),
+                                                       (config['zombie_size'], config['zombie_size'])))
+            self.sprites.append(pygame.transform.scale(pygame.image.load("images/zombie/tile015.png"),
+                                                       (config['zombie_size'], config['zombie_size'])))
+        except FileNotFoundError:
+            logging.critical("One of the Zombie Sprites could not be found!")
 
     def sprite_update(self, direction):
         """ sprite_update

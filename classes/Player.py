@@ -15,6 +15,7 @@
             https://www.youtube.com/channel/UCNaPQ5uLX5iIEHUCLmfAgKg
 """
 import pygame.sprite
+import logging
 
 from classes.Weapons import *
 
@@ -81,6 +82,7 @@ class Player(pygame.sprite.Sprite):
         # Game Over
         if self.health == 0:
             # [SOUND]: Game over sound can be added here
+            logging.info("Player has died. Score: %s", self.game.score)
             self.game.game_state = 3
 
         # [SOUND]: Player base sound can be added here
@@ -139,38 +141,41 @@ class Player(pygame.sprite.Sprite):
                 * sprites are appended correct (size & image is right)
                 * all sprites are appended
         """
-        self.sprites.append(pygame.transform.scale(pygame.image.load("images/player/tile000.png"),  # [1]
-                                                   (config['player_size'], config['player_size'])))
-        self.sprites.append(pygame.transform.scale(pygame.image.load("images/player/tile001.png"),
-                                                   (config['player_size'], config['player_size'])))
-        self.sprites.append(pygame.transform.scale(pygame.image.load("images/player/tile002.png"),
-                                                   (config['player_size'], config['player_size'])))
-        self.sprites.append(pygame.transform.scale(pygame.image.load("images/player/tile003.png"),
-                                                   (config['player_size'], config['player_size'])))
-        self.sprites.append(pygame.transform.scale(pygame.image.load("images/player/tile004.png"),
-                                                   (config['player_size'], config['player_size'])))
-        self.sprites.append(pygame.transform.scale(pygame.image.load("images/player/tile005.png"),
-                                                   (config['player_size'], config['player_size'])))
-        self.sprites.append(pygame.transform.scale(pygame.image.load("images/player/tile006.png"),
-                                                   (config['player_size'], config['player_size'])))
-        self.sprites.append(pygame.transform.scale(pygame.image.load("images/player/tile007.png"),
-                                                   (config['player_size'], config['player_size'])))
-        self.sprites.append(pygame.transform.scale(pygame.image.load("images/player/tile008.png"),
-                                                   (config['player_size'], config['player_size'])))
-        self.sprites.append(pygame.transform.scale(pygame.image.load("images/player/tile009.png"),
-                                                   (config['player_size'], config['player_size'])))
-        self.sprites.append(pygame.transform.scale(pygame.image.load("images/player/tile010.png"),
-                                                   (config['player_size'], config['player_size'])))
-        self.sprites.append(pygame.transform.scale(pygame.image.load("images/player/tile011.png"),
-                                                   (config['player_size'], config['player_size'])))
-        self.sprites.append(pygame.transform.scale(pygame.image.load("images/player/tile012.png"),
-                                                   (config['player_size'], config['player_size'])))
-        self.sprites.append(pygame.transform.scale(pygame.image.load("images/player/tile013.png"),
-                                                   (config['player_size'], config['player_size'])))
-        self.sprites.append(pygame.transform.scale(pygame.image.load("images/player/tile014.png"),
-                                                   (config['player_size'], config['player_size'])))
-        self.sprites.append(pygame.transform.scale(pygame.image.load("images/player/tile015.png"),
-                                                   (config['player_size'], config['player_size'])))
+        try:
+            self.sprites.append(pygame.transform.scale(pygame.image.load("images/player/tile000.png"),  # [1]
+                                                       (config['player_size'], config['player_size'])))
+            self.sprites.append(pygame.transform.scale(pygame.image.load("images/player/tile001.png"),
+                                                       (config['player_size'], config['player_size'])))
+            self.sprites.append(pygame.transform.scale(pygame.image.load("images/player/tile002.png"),
+                                                       (config['player_size'], config['player_size'])))
+            self.sprites.append(pygame.transform.scale(pygame.image.load("images/player/tile003.png"),
+                                                       (config['player_size'], config['player_size'])))
+            self.sprites.append(pygame.transform.scale(pygame.image.load("images/player/tile004.png"),
+                                                       (config['player_size'], config['player_size'])))
+            self.sprites.append(pygame.transform.scale(pygame.image.load("images/player/tile005.png"),
+                                                       (config['player_size'], config['player_size'])))
+            self.sprites.append(pygame.transform.scale(pygame.image.load("images/player/tile006.png"),
+                                                       (config['player_size'], config['player_size'])))
+            self.sprites.append(pygame.transform.scale(pygame.image.load("images/player/tile007.png"),
+                                                       (config['player_size'], config['player_size'])))
+            self.sprites.append(pygame.transform.scale(pygame.image.load("images/player/tile008.png"),
+                                                       (config['player_size'], config['player_size'])))
+            self.sprites.append(pygame.transform.scale(pygame.image.load("images/player/tile009.png"),
+                                                       (config['player_size'], config['player_size'])))
+            self.sprites.append(pygame.transform.scale(pygame.image.load("images/player/tile010.png"),
+                                                       (config['player_size'], config['player_size'])))
+            self.sprites.append(pygame.transform.scale(pygame.image.load("images/player/tile011.png"),
+                                                       (config['player_size'], config['player_size'])))
+            self.sprites.append(pygame.transform.scale(pygame.image.load("images/player/tile012.png"),
+                                                       (config['player_size'], config['player_size'])))
+            self.sprites.append(pygame.transform.scale(pygame.image.load("images/player/tile013.png"),
+                                                       (config['player_size'], config['player_size'])))
+            self.sprites.append(pygame.transform.scale(pygame.image.load("images/player/tile014.png"),
+                                                       (config['player_size'], config['player_size'])))
+            self.sprites.append(pygame.transform.scale(pygame.image.load("images/player/tile015.png"),
+                                                       (config['player_size'], config['player_size'])))
+        except FileNotFoundError:
+            logging.critical("One of the player sprites not found")
 
     def sprite_update(self, direction):
         """ sprite_update

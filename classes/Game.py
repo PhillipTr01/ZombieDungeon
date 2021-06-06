@@ -21,19 +21,17 @@ import copy
 import sys
 import logging
 
-from classes.Grid import *
-from classes.Player import *
-from classes.Objects import *
-from classes.Zombie import *
+try:
+    from classes.Grid import *
+    from classes.Player import *
+    from classes.Objects import *
+    from classes.Zombie import *
+except ImportError as e:
+    logging.critical("Not all of the required classes could be loaded!")
 
 # Configuration for logging library
-logging.basicConfig(filename="logs/ZombieDungeon.log", level=logging.DEBUG)
-logging.info("Info")
-logging.debug("Debug")
-logging.warning("Warning")
-logging.error("Error")
-logging.critical("Critical")
-
+logging.basicConfig(filename="logs/ZombieDungeon.log",
+                    format='%(levelname)s:%(asctime)s:\t %(message)s', level=logging.DEBUG)
 
 class Game:
     """ Game
@@ -71,10 +69,16 @@ class Game:
     def __init__(self):
         pygame.init()
         pygame.display.set_caption("Zombie Dungeon")
-        pygame.display.set_icon(pygame.image.load('images/game/zombie.png'))
+        try:
+            pygame.display.set_icon(pygame.image.load('images/game/zombie.png'))
+        except FileNotFoundError:
+            logging.critical("Zombie Dungeon logo not found")
         pygame.key.set_repeat(500, 100)
         self.dt = pygame.time.Clock().tick(config["fps"]) / 1000
-        self.font = pygame.font.Font("fonts/dogicapixel.otf", 35)
+        try:
+            self.font = pygame.font.Font("fonts/dogicapixel.otf", 35)
+        except FileNotFoundError:
+            logging.critical("Custom fonts not found")
         self.screen = pygame.display.set_mode((config['resolution_width'], config['resolution_height']))
 
         self.game_state = 0
@@ -101,6 +105,9 @@ class Game:
         self.start_button_rect = None
         self.exit_button_rect = None
         self.restart_button_rect = None
+
+        # Logging
+        logging.info("New Game Instace has been intialized")
         # [SOUND] Game music can be added here
 
     def update(self):
@@ -146,6 +153,7 @@ class Game:
         for event in pygame.event.get():
             # user quits program
             if event.type == pygame.QUIT:
+                logging.info("Game has been successfully closed")
                 sys.exit()
             elif event.type == pygame.KEYDOWN:
                 # user pauses program
@@ -157,6 +165,7 @@ class Game:
                     if self.game_state == 0 and self.start_button_rect.collidepoint(event.pos):
                         self.game_state = 1
                     elif self.game_state == 0 and self.exit_button_rect.collidepoint(event.pos):
+                        logging.info("Game has been successfully closed")
                         sys.exit()
                     elif self.game_state == 3 and self.restart_button_rect.collidepoint(event.pos):
                         self.game_state = 4

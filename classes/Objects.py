@@ -14,6 +14,7 @@
 """
 
 import pygame
+import logging
 
 from config import *
 
@@ -35,8 +36,11 @@ class Ground(pygame.sprite.Sprite):
     """
     def __init__(self, game, x, y):
         pygame.sprite.Sprite.__init__(self, game.background_sprites)
-        self.image = pygame.transform.scale(pygame.image.load("images/objects/ground.png"),     # [1]
+        try:
+            self.image = pygame.transform.scale(pygame.image.load("images/objects/ground.png"),     # [1]
                                             (config['tile_size'], config['tile_size']))
+        except FileNotFoundError:
+            logging.critical("The ground sprite could not be found.")
         self.rect = self.image.get_rect()
         self.rect.x = x * config['tile_size']
         self.rect.y = y * config['tile_size']
@@ -59,8 +63,11 @@ class Wall(pygame.sprite.Sprite):
     """
     def __init__(self, game, x, y):
         pygame.sprite.Sprite.__init__(self, game.collision_sprites)
-        self.image = pygame.transform.scale(pygame.image.load("images/objects/wall.png"),       # [1]
+        try:
+            self.image = pygame.transform.scale(pygame.image.load("images/objects/wall.png"),       # [1]
                                             (config['tile_size'], config['tile_size']))
+        except FileNotFoundError:
+            logging.critical("The wall sprite could not be found.")
         self.rect = self.image.get_rect()
         self.rect.x = x * config['tile_size']
         self.rect.y = y * config['tile_size']

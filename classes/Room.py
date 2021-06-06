@@ -17,7 +17,8 @@ w = "w"  # Wall
 g = "g"  # Ground
 p = "p"  # Player Spawn
 
-# All available rooms - this can be extended by appending a new room [OPEN]
+# All available rooms - this can be extended by appending a new room
+# It is possible to create unlimited unique rooms
 rooms = [[[w, w, w, w, w, w, w, w, w, w, w, w, w, w, w],  # Room 0
           [w, g, g, g, g, g, g, g, g, g, g, g, g, g, w],
           [w, g, g, g, g, g, g, g, g, g, g, g, g, g, w],
@@ -62,7 +63,7 @@ rooms = [[[w, w, w, w, w, w, w, w, w, w, w, w, w, w, w],  # Room 0
           [w, g, g, g, g, g, g, g, g, g, g, g, g, g, w],
           [w, g, g, g, g, g, g, g, g, g, g, g, g, g, w],
           [w, g, g, w, w, w, g, g, g, w, w, w, g, g, w],
-          [w, g, g, w, g, w, g, g, g, w, g, w, g, g, w],
+          [w, g, g, w, w, w, g, g, g, w, w, w, g, g, w],
           [w, g, g, w, w, w, g, g, g, w, w, w, g, g, w],
           [w, g, g, g, g, g, g, g, g, g, g, g, g, g, w],
           [w, g, g, g, g, g, g, g, g, g, g, g, g, g, w],
@@ -71,12 +72,93 @@ rooms = [[[w, w, w, w, w, w, w, w, w, w, w, w, w, w, w],  # Room 0
         [[w, w, w, w, w, w, w, w, w, w, w, w, w, w, w],  # Room 5
           [w, g, g, g, g, g, g, g, g, g, g, g, g, g, w],
           [w, g, g, g, g, g, g, g, g, g, g, g, g, g, w],
+          [w, g, g, g, w, w, w, w, w, w, w, g, g, g, w],
+          [w, g, g, g, w, w, w, w, w, w, w, g, g, g, w],
+          [w, g, g, g, w, w, w, w, w, w, w, g, g, g, w],
           [w, g, g, g, g, g, g, g, g, g, g, g, g, g, w],
           [w, g, g, g, g, g, g, g, g, g, g, g, g, g, w],
+          [w, w, w, w, w, w, w, w, w, w, w, w, w, w, w]],
+
+         [[w, w, w, w, w, w, w, w, w, w, w, w, w, w, w],  # Room 6
+          [w, g, g, g, g, g, g, g, g, g, g, g, g, g, w],
+          [w, g, w, w, g, g, g, g, g, g, g, w, w, g, w],
+          [w, g, w, w, g, g, w, w, w, g, g, w, w, g, w],
+          [w, g, g, g, g, g, w, w, w, g, g, g, g, g, w],
+          [w, g, w, w, g, g, w, w, w, g, g, w, w, g, w],
+          [w, g, w, w, g, g, g, g, g, g, g, w, w, g, w],
+          [w, g, g, g, g, g, g, g, g, g, g, g, g, g, w],
+          [w, w, w, w, w, w, w, w, w, w, w, w, w, w, w]],
+
+         [[w, w, w, w, w, w, w, w, w, w, w, w, w, w, w],  # Room 7
           [w, g, g, g, g, g, g, g, g, g, g, g, g, g, w],
           [w, g, g, g, g, g, g, g, g, g, g, g, g, g, w],
+          [w, g, g, w, w, g, g, w, g, g, w, w, g, g, w],
+          [w, g, g, w, w, g, w, w, w, g, w, w, g, g, w],
+          [w, g, g, w, w, g, g, w, g, g, w, w, g, g, w],
           [w, g, g, g, g, g, g, g, g, g, g, g, g, g, w],
-          [w, w, w, w, w, w, w, w, w, w, w, w, w, w, w]]]
+          [w, g, g, g, g, g, g, g, g, g, g, g, g, g, w],
+          [w, w, w, w, w, w, w, w, w, w, w, w, w, w, w]],
+
+         [[w, w, w, w, w, w, w, w, w, w, w, w, w, w, w],  # Room 8
+          [w, g, g, g, g, g, g, g, g, g, g, g, g, g, w],
+          [w, g, g, g, g, g, g, g, g, g, g, g, g, g, w],
+          [w, g, g, w, g, g, g, w, g, g, g, w, g, g, w],
+          [w, g, w, w, w, g, w, w, w, g, w, w, w, g, w],
+          [w, g, g, w, g, g, g, w, g, g, g, w, g, g, w],
+          [w, g, g, g, g, g, g, g, g, g, g, g, g, g, w],
+          [w, g, g, g, g, g, g, g, g, g, g, g, g, g, w],
+          [w, w, w, w, w, w, w, w, w, w, w, w, w, w, w]],
+
+         [[w, w, w, w, w, w, w, w, w, w, w, w, w, w, w],  # Room 9
+          [w, g, g, g, g, g, g, g, g, g, g, g, g, g, w],
+          [w, g, g, w, g, g, g, g, g, g, g, w, g, g, w],
+          [w, g, w, w, g, g, g, w, g, g, g, w, w, g, w],
+          [w, g, g, g, g, g, w, w, w, g, g, g, g, g, w],
+          [w, g, w, w, g, g, g, w, g, g, g, w, w, g, w],
+          [w, g, g, w, g, g, g, g, g, g, g, w, g, g, w],
+          [w, g, g, g, g, g, g, g, g, g, g, g, g, g, w],
+          [w, w, w, w, w, w, w, w, w, w, w, w, w, w, w]],
+
+         [[w, w, w, w, w, w, w, w, w, w, w, w, w, w, w],  # Room 10
+          [w, g, g, g, g, g, g, g, g, g, g, g, g, g, w],
+          [w, g, g, w, g, g, g, g, g, g, g, w, g, g, w],
+          [w, g, w, w, g, g, w, w, w, g, g, w, w, g, w],
+          [w, g, g, g, g, g, w, w, w, g, g, g, g, g, w],
+          [w, g, w, w, g, g, w, w, w, g, g, w, w, g, w],
+          [w, g, g, w, g, g, g, g, g, g, g, w, g, g, w],
+          [w, g, g, g, g, g, g, g, g, g, g, g, g, g, w],
+          [w, w, w, w, w, w, w, w, w, w, w, w, w, w, w]],
+
+         [[w, w, w, w, w, w, w, w, w, w, w, w, w, w, w],  # Room 11
+          [w, g, g, g, g, g, g, g, g, g, g, g, g, g, w],
+          [w, g, w, g, w, g, w, g, w, g, w, g, w, g, w],
+          [w, g, g, g, g, g, g, g, g, g, g, g, g, g, w],
+          [w, g, w, g, w, g, w, g, w, g, w, g, w, g, w],
+          [w, g, g, g, g, g, g, g, g, g, g, g, g, g, w],
+          [w, g, w, g, w, g, w, g, w, g, w, g, w, g, w],
+          [w, g, g, g, g, g, g, g, g, g, g, g, g, g, w],
+          [w, w, w, w, w, w, w, w, w, w, w, w, w, w, w]],
+
+         [[w, w, w, w, w, w, w, w, w, w, w, w, w, w, w],  # Room 12
+          [w, g, g, g, g, g, g, g, g, g, g, g, g, g, w],
+          [w, g, g, g, g, g, g, g, g, g, g, g, g, g, w],
+          [w, g, g, w, w, g, w, w, g, w, w, g, g, g, w],
+          [w, g, g, w, w, g, w, w, g, w, w, g, g, g, w],
+          [w, g, g, w, w, g, w, w, g, w, w, g, g, g, w],
+          [w, g, g, g, g, g, g, g, g, g, g, g, g, g, w],
+          [w, g, g, g, g, g, g, g, g, g, g, g, g, g, w],
+          [w, w, w, w, w, w, w, w, w, w, w, w, w, w, w]],
+
+         [[w, w, w, w, w, w, w, w, w, w, w, w, w, w, w],  # Room 13
+          [w, g, g, g, g, g, g, g, g, g, g, g, g, g, w],
+          [w, g, g, g, g, w, w, g, w, w, g, g, g, g, w],
+          [w, g, g, g, w, g, g, w, g, g, w, g, g, g, w],
+          [w, g, g, g, g, w, g, g, g, w, g, g, g, g, w],
+          [w, g, g, g, g, g, w, g, w, g, g, g, g, g, w],
+          [w, g, g, g, g, g, g, g, g, g, g, g, g, g, w],
+          [w, g, g, g, g, g, g, g, g, g, g, g, g, g, w],
+          [w, w, w, w, w, w, w, w, w, w, w, w, w, w, w]],
+         ]
 
 
 
