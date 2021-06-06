@@ -12,11 +12,17 @@
         [1] Sprites:
                 Designer: Nina Vukovic (Friend of developer) and Stefan Nemanja Banov
 """
+import sys
 
 import pygame
 import logging
 
 from config import *
+
+try:
+    config["tile_size"]
+except KeyError:
+    logging.critical("Config is incomplete!")
 
 
 class Ground(pygame.sprite.Sprite):

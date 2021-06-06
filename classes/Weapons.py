@@ -14,8 +14,16 @@
 """
 
 import pygame
+import logging
 
 from config import *
+
+try:
+    config['weapon_size']
+    config['weapon_speed']
+    config['weapon_lifetime']
+except KeyError:
+    logging.critical("Config is incomplete!")
 
 
 class Fireball(pygame.sprite.Sprite):

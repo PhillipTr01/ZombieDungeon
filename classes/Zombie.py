@@ -17,6 +17,17 @@ import logging
 import pygame
 
 from config import *
+try:
+    config["tile_size"]
+    config['zombie_health']
+    config['weapon_damage']
+    config['zombie_invincible_time']
+    config['zombie_damage']
+    config['zombie_size']
+    config['animation_speed']
+    config['zombie_speed']
+except KeyError:
+    logging.critical("Config is incomplete!")
 
 
 class Zombie(pygame.sprite.Sprite):

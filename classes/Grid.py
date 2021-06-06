@@ -14,10 +14,15 @@
 """
 
 import random
+import logging
 
 from config import *
 from classes.Room import *
 
+try:
+    config['base_rooms_per_level']
+except KeyError:
+    logging.critical("Config is incomplete!")
 
 class Grid:
     """ Grid

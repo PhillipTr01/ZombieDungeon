@@ -19,6 +19,17 @@ import logging
 
 from classes.Weapons import *
 
+try:
+    config["tile_size"]
+    config['player_health']
+    config['zombie_damage']
+    config['player_size']
+    config['animation_speed']
+    config['player_speed']
+    config['weapon_shoot_delay']
+except KeyError:
+    logging.critical("Config is incomplete!")
+
 
 class Player(pygame.sprite.Sprite):
     """ Player

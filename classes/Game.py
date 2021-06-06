@@ -22,6 +22,7 @@ import sys
 import logging
 
 try:
+    from classes.Logs import *
     from classes.Grid import *
     from classes.Player import *
     from classes.Objects import *
@@ -29,9 +30,18 @@ try:
 except ImportError as e:
     logging.critical("Not all of the required classes could be loaded!")
 
-# Configuration for logging library
-logging.basicConfig(filename="logs/ZombieDungeon.log",
-                    format='%(levelname)s:%(asctime)s:\t %(message)s', level=logging.DEBUG)
+
+try:
+    config["resolution_width"]
+    config["resolution_height"]
+    config['tile_size']
+    config['player_health']
+    config['min_zombie_count']
+    config['max_zombie_count']
+    config["fps"]
+except KeyError:
+    logging.critical("Config is incomplete!")
+    sys.exit()
 
 class Game:
     """ Game
