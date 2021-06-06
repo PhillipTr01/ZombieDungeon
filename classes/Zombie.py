@@ -55,7 +55,6 @@ class Zombie(pygame.sprite.Sprite):
         self.mx = 0
         self.my = 0
         self.animation_time = 0
-
         self.health = config['zombie_health']
         self.invincible_count = 0
 
@@ -130,7 +129,13 @@ class Zombie(pygame.sprite.Sprite):
                 self.game.player.health -= config['zombie_damage']
                 self.game.player.invincible_count = 50
 
-        # TODO: Zombies should no longer be able to move inside other instances / themself
+        # Zombie Colliding
+        if pygame.sprite.spritecollideany(self, self.game.enemy_sprites):
+            sprite = pygame.sprite.spritecollideany(self, self.game.enemy_sprites)
+            if sprite.rect != self.rect:
+                self.x -= self.mx * self.game.dt
+                self.y -= self.my * self.game.dt
+                self.rect.topleft = (self.x, self.y)
 
         if self.invincible_count > 0:
             self.invincible_count -= 1
