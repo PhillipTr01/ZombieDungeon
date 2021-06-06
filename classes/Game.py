@@ -605,6 +605,8 @@ class Game:
                 * grid is pictured correctly
         """
 
+
+
         # Rectangle of Map (background)
         map_surface = pygame.Surface((165, 165), pygame.SRCALPHA)   # [1]
         map_surface.fill((0, 0, 0, 175))
@@ -633,7 +635,6 @@ class Game:
                     elif room.status == 3:
                         map_grid.fill((0, 0, 0, 200))
                         map_grid.fill((171, 170, 171, 175), map_grid.get_rect().inflate(-3, -3))
-
                 self.screen.blit(map_grid, (x * 15 + 20, y * 15 + config['resolution_height'] - 185))
 
     def draw(self):
